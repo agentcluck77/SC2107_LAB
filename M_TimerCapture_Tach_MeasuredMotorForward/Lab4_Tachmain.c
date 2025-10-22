@@ -154,6 +154,7 @@ void main(void){
 //      }
       Tachometer_Get(&leftTach, &leftDir, &leftSteps, &rightTach, &rightDir, &rightSteps);
       if (leftSteps >= targetSteps && rightSteps >= targetSteps) {
+          Motor_RotateAngle(90, 1000);
           Motor_Stop();
           TimedPause(500);
 //          Clock_Delay1ms(500);

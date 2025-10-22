@@ -91,9 +91,10 @@ void LaunchPad_LED(uint8_t data){  // write one bit to P1.0
 }
 
 //------------LaunchPad_Output------------
-// Output to LaunchPad LEDs 
+// Output to LaunchPad LEDs
 // Input: 0 off, bit0=red,bit1=green,bit2=blue
 // Output: none
 void LaunchPad_Output(uint8_t data){  // write three outputs bits of P2
   P2->OUT = (P2->OUT&0xF8)|data;
 }
+

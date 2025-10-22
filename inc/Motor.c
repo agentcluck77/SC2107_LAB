@@ -214,3 +214,61 @@ void Motor_Backward(uint16_t leftDuty, uint16_t rightDuty){
     P3->OUT |= 0xC0;
 
 }
+
+
+
+// by aloy
+// At the top of Motor.c, add these defines and extern declarations:
+#include <stdlib.h> // for abs()
+// Robot physical parameters (adjust these based on your robot measurements)
+#define WHEELBASE 145          // Distance between wheels in mm
+#define WHEEL_CIRCUMFERENCE 220 // Wheel circumference in mm (from Tachometer.h: 360 steps per 220mm)
+
+// External references to tachometer step counters
+extern int Tachometer_LeftSteps;
+extern int Tachometer_RightSteps;
+
+
+// Then add this function implementation:
+
+/**
+ * Rotate the robot by a specified angle
+ * This function uses differential drive: one wheel forward, one backward
+ */
+void Motor_RotateAngle(int16_t angle, uint16_t speed) {
+    uint32_t targetSteps;
+    int32_t leftSteps, rightSteps;
+
+    // Return immediately if angle is 0
+    if (angle == 0) {
+        return;
+    }
+
+    // Calculate number of steps needed for this rotation
+    // Formula: steps = (wheelbase * PI * angle) / (360 * wheel_circumference)
+    // Using 360 steps per wheel rotation
+    targetSteps = (uint32_t)((WHEELBASE * 3.14159 * abs(angle) * 360) / (360 * WHEEL_CIRCUMFERENCE));
+
+    // Reset tachometer step counters
+    Tachometer_LeftSteps = 0;
+    Tachometer_RightSteps = 0;
+
+    // Start rotation based on direction
+    if (angle > 0) {
+        // Turn right (clockwise)
+        Motor_Right(speed, speed);
+    } else {
+        // Turn left (counterclockwise)
+        Motor_Left(speed, speed);
+    }
+
+    // Wait until target steps reached on both wheels
+    // Use abs() because steps can be negative depending on direction
+    do {
+        leftSteps = Tachometer_LeftSteps;
+        rightSteps = Tachometer_RightSteps;
+    } while (abs(leftSteps) < targetSteps || abs(rightSteps) < targetSteps);
+
+    // Stop motors
+    Motor_Stop();
+}

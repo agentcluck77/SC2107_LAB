@@ -12,8 +12,11 @@ C_SRCS += \
 C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Clock.c \
 ../Lab2-FSMmain-11states.c \
 C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/LaunchPad.c \
+C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Motor.c \
+C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/PWM.c \
 C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Reflectance.c \
 C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/TExaS.c \
+C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Tachometer.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
 
@@ -21,8 +24,11 @@ C_DEPS += \
 ./Clock.d \
 ./Lab2-FSMmain-11states.d \
 ./LaunchPad.d \
+./Motor.d \
+./PWM.d \
 ./Reflectance.d \
 ./TExaS.d \
+./Tachometer.d \
 ./startup_msp432p401r_ccs.d \
 ./system_msp432p401r.d 
 
@@ -30,8 +36,11 @@ OBJS += \
 ./Clock.obj \
 ./Lab2-FSMmain-11states.obj \
 ./LaunchPad.obj \
+./Motor.obj \
+./PWM.obj \
 ./Reflectance.obj \
 ./TExaS.obj \
+./Tachometer.obj \
 ./startup_msp432p401r_ccs.obj \
 ./system_msp432p401r.obj 
 
@@ -39,8 +48,11 @@ OBJS__QUOTED += \
 "Clock.obj" \
 "Lab2-FSMmain-11states.obj" \
 "LaunchPad.obj" \
+"Motor.obj" \
+"PWM.obj" \
 "Reflectance.obj" \
 "TExaS.obj" \
+"Tachometer.obj" \
 "startup_msp432p401r_ccs.obj" \
 "system_msp432p401r.obj" 
 
@@ -48,8 +60,11 @@ C_DEPS__QUOTED += \
 "Clock.d" \
 "Lab2-FSMmain-11states.d" \
 "LaunchPad.d" \
+"Motor.d" \
+"PWM.d" \
 "Reflectance.d" \
 "TExaS.d" \
+"Tachometer.d" \
 "startup_msp432p401r_ccs.d" \
 "system_msp432p401r.d" 
 
@@ -57,8 +72,11 @@ C_SRCS__QUOTED += \
 "C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Clock.c" \
 "../Lab2-FSMmain-11states.c" \
 "C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/LaunchPad.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Motor.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/PWM.c" \
 "C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Reflectance.c" \
 "C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/TExaS.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Tachometer.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 
 

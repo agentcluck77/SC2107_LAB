@@ -137,4 +137,15 @@ void Motor_Left(uint16_t leftDuty, uint16_t rightDuty);
  */
 void Motor_Backward(uint16_t leftDuty, uint16_t rightDuty);
 
+/**
+ * Rotate the robot by a specified angle
+ * @param angle degrees to rotate (positive = clockwise/right, negative = counterclockwise/left)
+ * @param speed PWM duty cycle (0 to 14998)
+ * @return none
+ * @note This is a blocking function that waits until rotation completes
+ * @note Requires Tachometer_Init() to be called first
+ * @brief Rotate robot by specified angle
+ */
+void Motor_RotateAngle(int16_t angle, uint16_t speed);
+
 #endif /* MOTOR_H_ */
