@@ -99,6 +99,8 @@ uint16_t leftTach, rightTach;
 enum TachDirection leftDir, rightDir;
 int32_t leftSteps, rightSteps;
 int32_t targetSteps = 818;
+extern int Tachometer_LeftSteps;
+extern int Tachometer_RightSteps;
 
 
 // max period is (2^16-1)*83.3 ns = 5.4612 ms
@@ -141,6 +143,8 @@ void main(void){
     EnableInterrupts();
 
     Tachometer_Init();
+    Tachometer_LeftSteps = 0;
+    Tachometer_RightSteps = 0;
     Motor_Forward(1000,1000);
     while(1){
 //      WaitForInterrupt();
@@ -153,6 +157,9 @@ void main(void){
           Motor_Stop();
           TimedPause(500);
 //          Clock_Delay1ms(500);
+          Tachometer_LeftSteps = 0;
+          Tachometer_RightSteps = 0;
+          Motor_Forward(1000,1000);
       }
     }
 }
