@@ -9,12 +9,12 @@ CMD_SRCS += \
 ../msp432p401r.cmd 
 
 C_SRCS += \
-C:/SC2107_FINAL/inc/Bump.c \
-C:/SC2107_FINAL/inc/Clock.c \
-C:/SC2107_FINAL/inc/LaunchPad.c \
-C:/SC2107_FINAL/inc/MotorSimple.c \
+C:/SC2108_FINAL-main/inc/Bump.c \
+C:/SC2108_FINAL-main/inc/Clock.c \
+C:/SC2108_FINAL-main/inc/LaunchPad.c \
+C:/SC2108_FINAL-main/inc/MotorSimple.c \
 ../Simple_Motorsmain.c \
-C:/SC2107_FINAL/inc/SysTick.c \
+C:/SC2108_FINAL-main/inc/SysTick.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
 
@@ -59,12 +59,12 @@ C_DEPS__QUOTED += \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"C:/SC2107_FINAL/inc/Bump.c" \
-"C:/SC2107_FINAL/inc/Clock.c" \
-"C:/SC2107_FINAL/inc/LaunchPad.c" \
-"C:/SC2107_FINAL/inc/MotorSimple.c" \
+"C:/SC2108_FINAL-main/inc/Bump.c" \
+"C:/SC2108_FINAL-main/inc/Clock.c" \
+"C:/SC2108_FINAL-main/inc/LaunchPad.c" \
+"C:/SC2108_FINAL-main/inc/MotorSimple.c" \
 "../Simple_Motorsmain.c" \
-"C:/SC2107_FINAL/inc/SysTick.c" \
+"C:/SC2108_FINAL-main/inc/SysTick.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 
 

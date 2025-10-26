@@ -148,4 +148,31 @@ void Motor_Backward(uint16_t leftDuty, uint16_t rightDuty);
  */
 void Motor_RotateAngle(int16_t angle, uint16_t speed);
 
+
+
+// PID motor functions
+
+/**
+ * Start moving forward at specified speed with PID control
+ * @param speed_cm_s desired speed in cm/s (recommended range: 5-50)
+ * @return none
+ * @note Requires SysTick interrupt to be running
+ * @note Requires Tachometer_Init() to be called first
+ * @brief Start speed-controlled forward motion
+ */
+void Motor_ForwardSpeed(uint16_t speed_cm_s);
+
+/**
+ * Stop speed-controlled motion
+ * @return none
+ * @brief Stop speed control and motors
+ */
+void Motor_StopSpeedControl(void);
+
+/**
+ * Internal function called by SysTick ISR
+ * @note Do NOT call this directly from user code
+ */
+void Motor_SpeedControlISR(void);
+
 #endif /* MOTOR_H_ */

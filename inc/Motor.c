@@ -58,6 +58,7 @@ policies, either expressed or implied, of the FreeBSD Project.
 #include "msp.h"
 #include "../inc/CortexM.h"
 #include "../inc/PWM.h"
+#include "../inc/Tachometer.h"
 
 #define PERIOD 7500
 
@@ -218,18 +219,16 @@ void Motor_Backward(uint16_t leftDuty, uint16_t rightDuty){
 
 
 // by aloy
-// At the top of Motor.c, add these defines and extern declarations:
 #include <stdlib.h> // for abs()
 // Robot physical parameters (adjust these based on your robot measurements)
 #define WHEELBASE 145          // Distance between wheels in mm
 #define WHEEL_CIRCUMFERENCE 220 // Wheel circumference in mm (from Tachometer.h: 360 steps per 220mm)
+#define STEPS_PER_REVOLUTION 360.0
 
 // External references to tachometer step counters
 extern int Tachometer_LeftSteps;
 extern int Tachometer_RightSteps;
 
-
-// Then add this function implementation:
 
 /**
  * Rotate the robot by a specified angle
@@ -245,8 +244,9 @@ void Motor_RotateAngle(int16_t angle, uint16_t speed) {
     }
 
     // Calculate number of steps needed for this rotation
-    // Formula: steps = (wheelbase * PI * angle) / (360 * wheel_circumference)
-    // Using 360 steps per wheel rotation
+    // Formula: arc_length = (wheelbase * PI * angle) / 360
+    //          steps = (arc_length / wheel_circumference) * 360
+    // Combined: steps = (wheelbase * PI * angle * 360) / (360 * wheel_circumference)
     targetSteps = (uint32_t)((WHEELBASE * 3.14159 * abs(angle) * 360) / (360 * WHEEL_CIRCUMFERENCE));
 
     // Reset tachometer step counters
@@ -262,13 +262,155 @@ void Motor_RotateAngle(int16_t angle, uint16_t speed) {
         Motor_Left(speed, speed);
     }
 
-    // Wait until target steps reached on both wheels
-    // Use abs() because steps can be negative depending on direction
+    // Wait until target steps reached on BOTH wheels
+    uint32_t timeout = 0;
     do {
         leftSteps = Tachometer_LeftSteps;
         rightSteps = Tachometer_RightSteps;
-    } while (abs(leftSteps) < targetSteps || abs(rightSteps) < targetSteps);
+
+        // Safety timeout (prevents infinite loop if motor stalls)
+        timeout++;
+        if (timeout > 1000000) {
+            Motor_Stop();
+            return;
+        }
+    } while (abs(leftSteps) < targetSteps && abs(rightSteps) < targetSteps);  // AND not OR
 
     // Stop motors
+    Motor_Stop();
+}
+
+
+// PID control state variables
+static volatile uint16_t targetSpeed_cm_s = 0;
+static volatile uint16_t leftDuty = 0, rightDuty = 0;
+static volatile int32_t leftIntegral = 0, rightIntegral = 0;
+static volatile uint16_t lastLeftTach = 0, lastRightTach = 0;
+static volatile uint8_t speedControlActive = 0;
+
+// Control gains (must tweak)
+#define KP 100
+#define KI 10
+#define FEEDFORWARD_GAIN 300 // approx duty per cm/s (must calibrate)
+#define WHEEL_CIRCUMFERENCE_CM 22.0  // 220mm = 22cm
+
+
+// Private function called from Systick ISR
+void Motor_SpeedControlISR(void) {
+    if (!speedControlActive) return;
+
+    uint16_t leftTach, rightTach;
+    int32_t leftSteps, rightSteps;
+    enum TachDirection leftDir, rightDir;
+    // get current tachometer readings
+    Tachometer_Get(&leftTach, &leftDir, &leftSteps,
+                   &rightTach, &rightDir, &rightSteps);
+
+    // calculate target period from desired speed
+    float stepsPerCm = STEPS_PER_REVOLUTION / WHEEL_CIRCUMFERENCE_CM;
+    float targetStepsPerSec = targetSpeed_cm_s * stepsPerCm;
+
+    // Avoid division by zero for very low speeds
+    if (targetSpeed_cm_s < 2) {
+        Motor_Stop();
+        speedControlActive = 0;
+        return;
+    }
+
+    // Target period in tachometer units (0.083 µs)
+    uint32_t targetPeriod = (uint32_t)(12048192.0 / (targetSpeed_cm_s * stepsPerCm));
+    // Check for stale tachometer data (same reading as last time)
+    if (leftTach == lastLeftTach || leftTach == 0) {
+        // Tach might be stale, increase duty slightly
+        leftDuty += 50;
+    } else {
+        // Fresh data - do PI control
+        int32_t leftError = leftTach - targetPeriod;  // Positive = too slow
+        leftIntegral += leftError;
+
+        // Anti-windup
+        if (leftIntegral > 5000) leftIntegral = 5000;
+        if (leftIntegral < -5000) leftIntegral = -5000;
+
+        // PI controller with feedforward
+        leftDuty = (FEEDFORWARD_GAIN * targetSpeed_cm_s)
+                   + (KP * leftError / 100)
+                   + (KI * leftIntegral / 1000);
+    }
+
+    // Similar for right wheel
+    if (rightTach == lastRightTach || rightTach == 0) {
+        rightDuty += 50;
+    } else {
+        int32_t rightError = rightTach - targetPeriod;
+        rightIntegral += rightError;
+
+        if (rightIntegral > 5000) rightIntegral = 5000;
+        if (rightIntegral < -5000) rightIntegral = -5000;
+
+        rightDuty = (FEEDFORWARD_GAIN * targetSpeed_cm_s)
+                    + (KP * rightError / 100)
+                    + (KI * rightIntegral / 1000);
+    }
+
+    // Clamp to valid range
+    if (leftDuty > 14998) leftDuty = 14998;
+    if (rightDuty > 14998) rightDuty = 14998;
+
+    // Store for staleness detection
+    lastLeftTach = leftTach;
+    lastRightTach = rightTach;
+
+    // Apply to motors
+    Motor_Forward(leftDuty, rightDuty);
+}
+
+// Public function - start forward motion with speed control
+
+/*
+ * EXAMPLE USAGE:
+int main(void) {
+    // Standard initialization
+    Clock_Init48MHz();
+    LaunchPad_Init();
+    Motor_Init();           // Must be BEFORE SysTick_Init
+    Tachometer_Init();      // Must be BEFORE SysTick_Init
+
+    // Initialize SysTick for speed control (100Hz = every 10ms)
+    SysTick_Init(480000, 2);  // ADD THIS LINE
+    // Calculation: 48MHz / 100Hz = 480,000
+
+    EnableInterrupts();     // Must be called to enable SysTick interrupts
+
+    // Now you can use speed control
+    while(1) {
+        Motor_ForwardSpeed(20);  // Move at 20 cm/s
+        Clock_Delay1ms(3000);    // Run for 3 seconds
+
+        Motor_StopSpeedControl(); // Stop
+        Clock_Delay1ms(1000);
+    }
+}
+
+ */
+
+void Motor_ForwardSpeed(uint16_t speed_cm_s) {
+    targetSpeed_cm_s = speed_cm_s;
+    leftIntegral = 0;
+    rightIntegral = 0;
+
+    // initial feedforward estimate
+    leftDuty = rightDuty = FEEDFORWARD_GAIN * speed_cm_s;
+    if (leftDuty > 14998) leftDuty = rightDuty = 14998;
+
+    speedControlActive = 1;
+    Motor_Forward(leftDuty, rightDuty);
+
+    // note: control loop runs in SysTick ISR
+}
+
+// public function for stopping speed control
+void Motor_StopSpeedControl(void) {
+    speedControlActive = 0;
     Motor_Stop();
 }

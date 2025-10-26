@@ -9,15 +9,15 @@ CMD_SRCS += \
 ../msp432p401r.cmd 
 
 C_SRCS += \
-C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/ADC14.c \
-C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Clock.c \
-C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/CortexM.c \
-C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/IRDistance.c \
-C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/LPF.c \
+C:/SC2108_FINAL-main/inc/ADC14.c \
+C:/SC2108_FINAL-main/inc/Clock.c \
+C:/SC2108_FINAL-main/inc/CortexM.c \
+C:/SC2108_FINAL-main/inc/IRDistance.c \
+C:/SC2108_FINAL-main/inc/LPF.c \
 ../Lab4_ADCmain.c \
-C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/LaunchPad.c \
-C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/TimerA1.c \
-C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/UART0.c \
+C:/SC2108_FINAL-main/inc/LaunchPad.c \
+C:/SC2108_FINAL-main/inc/TimerA1.c \
+C:/SC2108_FINAL-main/inc/UART0.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
 
@@ -74,15 +74,15 @@ C_DEPS__QUOTED += \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/ADC14.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Clock.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/CortexM.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/IRDistance.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/LPF.c" \
+"C:/SC2108_FINAL-main/inc/ADC14.c" \
+"C:/SC2108_FINAL-main/inc/Clock.c" \
+"C:/SC2108_FINAL-main/inc/CortexM.c" \
+"C:/SC2108_FINAL-main/inc/IRDistance.c" \
+"C:/SC2108_FINAL-main/inc/LPF.c" \
 "../Lab4_ADCmain.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/LaunchPad.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/TimerA1.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/UART0.c" \
+"C:/SC2108_FINAL-main/inc/LaunchPad.c" \
+"C:/SC2108_FINAL-main/inc/TimerA1.c" \
+"C:/SC2108_FINAL-main/inc/UART0.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 
 
