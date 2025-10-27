@@ -287,6 +287,8 @@ static volatile uint16_t leftDuty = 0, rightDuty = 0;
 static volatile int32_t leftIntegral = 0, rightIntegral = 0;
 static volatile uint16_t lastLeftTach = 0, lastRightTach = 0;
 static volatile uint8_t speedControlActive = 0;
+static volatile uint16_t targetDistance_cm = 0;
+static volatile uint32_t initialLeftSteps = 0, initialRightSteps = 0;
 
 // Control gains (must tweak)
 #define KP 100
@@ -294,6 +296,77 @@ static volatile uint8_t speedControlActive = 0;
 #define FEEDFORWARD_GAIN 300 // approx duty per cm/s (must calibrate)
 #define WHEEL_CIRCUMFERENCE_CM 22.0  // 220mm = 22cm
 
+// Public function - start forward motion with speed control
+
+/*
+ * EXAMPLE USAGE:
+int main(void) {
+    // Standard initialization
+    Clock_Init48MHz();
+    LaunchPad_Init();
+    Motor_Init();           // Must be BEFORE SysTick_Init
+    Tachometer_Init();      // Must be BEFORE SysTick_Init
+
+    // Initialize SysTick for speed control (100Hz = every 10ms)
+    SysTick_Init(480000, 2);  // ADD THIS LINE
+    // Calculation: 48MHz / 100Hz = 480,000
+
+    EnableInterrupts();     // Must be called to enable SysTick interrupts
+
+    // Now you can use speed control
+    while(1) {
+        Motor_ForwardSpeed(20, 0);  // Move at 20 cm/s indefinitely
+        Clock_Delay1ms(3000);    // Run for 3 seconds
+
+        Motor_StopSpeedControl(); // Stop
+        Clock_Delay1ms(1000);
+    }
+}
+
+
+// Run at 20 cm/s indefinitely (until Motor_StopSpeedControl called)
+Motor_ForwardSpeed(20, 0);
+
+// Move forward exactly 30 cm at 15 cm/s (auto-stops)
+Motor_ForwardSpeed(15, 30);
+
+// Move forward 100 cm at 25 cm/s
+Motor_ForwardSpeed(25, 100);
+ */
+
+void Motor_ForwardSpeed(uint16_t speed_cm_s, uint16_t distance_cm) {
+    int32_t leftSteps, rightSteps;
+    uint16_t leftTach, rightTach;
+    enum TachDirection leftDir, rightDir;
+
+    targetSpeed_cm_s = speed_cm_s;
+    targetDistance_cm = distance_cm;  // Store target distance
+    leftIntegral = 0;
+    rightIntegral = 0;
+
+    // Record starting position if distance control enabled
+    if (distance_cm > 0) {
+        Tachometer_Get(&leftTach, &leftDir, &leftSteps,
+                       &rightTach, &rightDir, &rightSteps);
+        initialLeftSteps = leftSteps;
+        initialRightSteps = rightSteps;
+    }
+
+    // initial feedforward estimate
+    leftDuty = rightDuty = FEEDFORWARD_GAIN * speed_cm_s;
+    if (leftDuty > 14998) leftDuty = rightDuty = 14998;
+
+    speedControlActive = 1;
+    Motor_Forward(leftDuty, rightDuty);
+
+    // note: control loop runs in SysTick ISR
+}
+
+// public function for stopping speed control
+void Motor_StopSpeedControl(void) {
+    speedControlActive = 0;
+    Motor_Stop();
+}
 
 // Private function called from Systick ISR
 void Motor_SpeedControlISR(void) {
@@ -306,6 +379,24 @@ void Motor_SpeedControlISR(void) {
     Tachometer_Get(&leftTach, &leftDir, &leftSteps,
                    &rightTach, &rightDir, &rightSteps);
 
+    // Check if target distance reached
+        if (targetDistance_cm > 0) {
+            // Calculate steps traveled since we started
+            int32_t stepsLeft = leftSteps - initialLeftSteps;
+            int32_t stepsRight = rightSteps - initialRightSteps;
+
+            // Use average of both wheels to handle slight differences
+            float avgSteps = (abs(stepsLeft) + abs(stepsRight)) / 2.0f;
+
+            // Convert to distance (360 steps = 22 cm)
+            float distance_traveled = (avgSteps / STEPS_PER_REVOLUTION) * WHEEL_CIRCUMFERENCE_CM;
+
+            if (distance_traveled >= targetDistance_cm) {
+                Motor_StopSpeedControl();
+                return;
+            }
+        }
+
     // calculate target period from desired speed
     float stepsPerCm = STEPS_PER_REVOLUTION / WHEEL_CIRCUMFERENCE_CM;
     float targetStepsPerSec = targetSpeed_cm_s * stepsPerCm;
@@ -316,6 +407,8 @@ void Motor_SpeedControlISR(void) {
         speedControlActive = 0;
         return;
     }
+
+
 
     // Target period in tachometer units (0.083 µs)
     uint32_t targetPeriod = (uint32_t)(12048192.0 / (targetSpeed_cm_s * stepsPerCm));
@@ -363,54 +456,4 @@ void Motor_SpeedControlISR(void) {
 
     // Apply to motors
     Motor_Forward(leftDuty, rightDuty);
-}
-
-// Public function - start forward motion with speed control
-
-/*
- * EXAMPLE USAGE:
-int main(void) {
-    // Standard initialization
-    Clock_Init48MHz();
-    LaunchPad_Init();
-    Motor_Init();           // Must be BEFORE SysTick_Init
-    Tachometer_Init();      // Must be BEFORE SysTick_Init
-
-    // Initialize SysTick for speed control (100Hz = every 10ms)
-    SysTick_Init(480000, 2);  // ADD THIS LINE
-    // Calculation: 48MHz / 100Hz = 480,000
-
-    EnableInterrupts();     // Must be called to enable SysTick interrupts
-
-    // Now you can use speed control
-    while(1) {
-        Motor_ForwardSpeed(20);  // Move at 20 cm/s
-        Clock_Delay1ms(3000);    // Run for 3 seconds
-
-        Motor_StopSpeedControl(); // Stop
-        Clock_Delay1ms(1000);
-    }
-}
-
- */
-
-void Motor_ForwardSpeed(uint16_t speed_cm_s) {
-    targetSpeed_cm_s = speed_cm_s;
-    leftIntegral = 0;
-    rightIntegral = 0;
-
-    // initial feedforward estimate
-    leftDuty = rightDuty = FEEDFORWARD_GAIN * speed_cm_s;
-    if (leftDuty > 14998) leftDuty = rightDuty = 14998;
-
-    speedControlActive = 1;
-    Motor_Forward(leftDuty, rightDuty);
-
-    // note: control loop runs in SysTick ISR
-}
-
-// public function for stopping speed control
-void Motor_StopSpeedControl(void) {
-    speedControlActive = 0;
-    Motor_Stop();
 }

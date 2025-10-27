@@ -155,12 +155,14 @@ void Motor_RotateAngle(int16_t angle, uint16_t speed);
 /**
  * Start moving forward at specified speed with PID control
  * @param speed_cm_s desired speed in cm/s (recommended range: 5-50)
+ * @param distance_cm target distance in cm (0 = run indefinitely until Motor_StopSpeedControl called)
  * @return none
  * @note Requires SysTick interrupt to be running
  * @note Requires Tachometer_Init() to be called first
  * @brief Start speed-controlled forward motion
  */
-void Motor_ForwardSpeed(uint16_t speed_cm_s);
+
+void Motor_ForwardSpeed(uint16_t speed_cm_s, uint16_t distance_cm);
 
 /**
  * Stop speed-controlled motion
