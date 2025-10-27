@@ -110,7 +110,7 @@ void PORT4_IRQHandler(void){
 
     if(status != 0x00){
         result = Bump_Read();
-//        Port4Task(result);      // call the user-defined task with the bump switch
+        Port4Task(result);      // call the user-defined task with the bump switch
         bumpState = result;
     }
     P4->IFG &= 0x12;            // clear interrupt flags for bump switches

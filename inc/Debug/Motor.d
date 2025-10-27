@@ -13,6 +13,7 @@ Motor.obj: C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h
 Motor.obj: ../../inc/CortexM.h
 Motor.obj: ../../inc/PWM.h
 Motor.obj: ../../inc/Tachometer.h
+Motor.obj: ../../inc/UART0.h
 Motor.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdlib.h
 Motor.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/linkage.h
 
@@ -29,5 +30,6 @@ C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h:
 ../../inc/CortexM.h: 
 ../../inc/PWM.h: 
 ../../inc/Tachometer.h: 
+../../inc/UART0.h: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdlib.h: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/linkage.h: 
