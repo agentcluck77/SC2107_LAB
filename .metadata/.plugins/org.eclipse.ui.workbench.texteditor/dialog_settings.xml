@@ -2,20 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="TxHistogram" key="selection"/>
+		<item value="TimerA3" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="motor_init"/>
+			<item value="timera3"/>
+			<item value="IR"/>
+			<item value="timed"/>
 			<item value="txhistogram"/>
 			<item value="main("/>
 			<item value="main"/>
 			<item value="tachometer_get"/>
-			<item value="tachometer"/>
-			<item value="Tachometer_Get"/>
-			<item value="case 6"/>
-			<item value="case 7"/>
 		</list>
 		<list key="replacehistory">
 		</list>

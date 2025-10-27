@@ -20,6 +20,8 @@ Lab4_ADCmain.obj: ../../inc/ADC14.h
 Lab4_ADCmain.obj: ../../inc/LPF.h
 Lab4_ADCmain.obj: ../../inc/Motor.h
 Lab4_ADCmain.obj: ../../inc/PWM.h
+Lab4_ADCmain.obj: ../../inc/Tachometer.h
+Lab4_ADCmain.obj: ../../inc/TA3InputCapture.h
 
 ../Lab4_ADCmain.c: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 
@@ -41,3 +43,5 @@ C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h:
 ../../inc/LPF.h: 
 ../../inc/Motor.h: 
 ../../inc/PWM.h: 
+../../inc/Tachometer.h: 
+../../inc/TA3InputCapture.h: 

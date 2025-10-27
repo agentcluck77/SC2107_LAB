@@ -70,6 +70,8 @@ policies, either expressed or implied, of the FreeBSD Project.
 // new
 #include "../inc/Motor.h"
 #include "../inc/PWM.h"
+#include "../inc/Tachometer.h"
+#include "../inc/TA3InputCapture.h"
 
 #define RED       0x01
 
