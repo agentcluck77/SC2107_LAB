@@ -1,6 +1,6 @@
 # FIXED
 
-Clock.obj: C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Clock.c
+Clock.obj: C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Clock.c
 Clock.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h
 Clock.obj: C:/ti/ccsv7/ccs_base/arm/include/msp.h
 Clock.obj: C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h
@@ -11,7 +11,7 @@ Clock.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h
 Clock.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h
 Clock.obj: C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h
 
-C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/Clock.c: 
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Clock.c: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h: 

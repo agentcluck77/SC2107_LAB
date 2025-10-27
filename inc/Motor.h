@@ -148,33 +148,17 @@ void Motor_Backward(uint16_t leftDuty, uint16_t rightDuty);
  */
 void Motor_RotateAngle(int16_t angle, uint16_t speed);
 
-
-
-// PID motor functions
-
 /**
- * Start moving forward at specified speed with PID control
- * @param speed_cm_s desired speed in cm/s (recommended range: 5-50)
- * @param distance_cm target distance in cm (0 = run indefinitely until Motor_StopSpeedControl called)
+ * Drive the robot forward for a specified distance
+ * @param distance_cm distance to travel in cm
+ * @param leftDuty duty cycle of left wheel (0 to 14,998)
+ * @param rightDuty duty cycle of right wheel (0 to 14,998)
  * @return none
- * @note Requires SysTick interrupt to be running
+ * @note This is a blocking function that waits until distance is reached
  * @note Requires Tachometer_Init() to be called first
- * @brief Start speed-controlled forward motion
+ * @note 360 steps = 22 cm (220 mm wheel circumference)
+ * @brief Drive forward for specified distance
  */
-
-void Motor_ForwardSpeed(uint16_t speed_cm_s, uint16_t distance_cm);
-
-/**
- * Stop speed-controlled motion
- * @return none
- * @brief Stop speed control and motors
- */
-void Motor_StopSpeedControl(void);
-
-/**
- * Internal function called by SysTick ISR
- * @note Do NOT call this directly from user code
- */
-void Motor_SpeedControlISR(void);
+void Motor_ForwardDist(uint16_t distance_cm, uint16_t leftDuty, uint16_t rightDuty);
 
 #endif /* MOTOR_H_ */

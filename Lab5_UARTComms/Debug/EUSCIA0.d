@@ -1,9 +1,9 @@
 # FIXED
 
-EUSCIA0.obj: C:/Users/n2303916f/Downloads/BickelFrederikThomas/inc/EUSCIA0.c
+EUSCIA0.obj: C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/EUSCIA0.c
 EUSCIA0.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h
-EUSCIA0.obj: C:/Users/n2303916f/Downloads/BickelFrederikThomas/inc/../inc/FIFO0.h
-EUSCIA0.obj: C:/Users/n2303916f/Downloads/BickelFrederikThomas/inc/EUSCIA0.h
+EUSCIA0.obj: C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/../inc/FIFO0.h
+EUSCIA0.obj: C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/EUSCIA0.h
 EUSCIA0.obj: C:/ti/ccsv7/ccs_base/arm/include/msp.h
 EUSCIA0.obj: C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h
 EUSCIA0.obj: C:/ti/ccsv7/ccs_base/arm/include/msp_compatibility.h
@@ -13,10 +13,10 @@ EUSCIA0.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h
 EUSCIA0.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h
 EUSCIA0.obj: C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h
 
-C:/Users/n2303916f/Downloads/BickelFrederikThomas/inc/EUSCIA0.c: 
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/EUSCIA0.c: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 
-C:/Users/n2303916f/Downloads/BickelFrederikThomas/inc/../inc/FIFO0.h: 
-C:/Users/n2303916f/Downloads/BickelFrederikThomas/inc/EUSCIA0.h: 
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/../inc/FIFO0.h: 
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/EUSCIA0.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp_compatibility.h: 

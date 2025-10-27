@@ -76,6 +76,8 @@ policies, either expressed or implied, of the FreeBSD Project.
 #include "../inc/TExaS.h"
 #include "../inc/Bump.h"
 #include "../inc/UART0.h"
+#include "../inc/SysTickInts.h"
+
 
 #define P2_4 (*((volatile uint8_t *)(0x42098070)))
 #define P2_3 (*((volatile uint8_t *)(0x4209806C)))
@@ -134,33 +136,20 @@ uint32_t main_count=0;
 
 void main(void){
     DisableInterrupts();
-    Clock_Init48MHz();  // 48 MHz clock; 12 MHz Timer A clock
-    LaunchPad_Init();   // built-in switches and LEDs
-    UART0_Init();       // initialize UART0 115,200 baud rate
-    Motor_Init();       // configure motor
-//    TimerA3Capture_Init(&PeriodMeasure0,&PeriodMeasure2);
-    TimedPause(500);
-    EnableInterrupts();
+    Clock_Init48MHz();       // Required: Sets up system clock
+    Motor_Init();            // Required: Initializes motor pins and PWM
+    EnableInterrupts();      // Required: Enables tachometer interrupts
+    Tachometer_Init();       // Required: Initializes encoder pins
 
-    Tachometer_Init();
-    Tachometer_LeftSteps = 0;
-    Tachometer_RightSteps = 0;
-    Motor_Forward(1000,1000);
+    LaunchPad_Init();
+    UART0_OutString("Robot ready, press button to start.\r\n");
+    TimedPause(500);
+//    Clock_Delay1ms(2000);
     while(1){
-//      WaitForInterrupt();
-//      main_count++;
-//      if(main_count%1000 == 0){
-//          UART0_OutString("Period0 = ");UART0_OutUDec5(Period0);UART0_OutString(" Period2 = ");UART0_OutUDec5(Period2);UART0_OutString(" \r\n");
-//      }
-      Tachometer_Get(&leftTach, &leftDir, &leftSteps, &rightTach, &rightDir, &rightSteps);
-      if (leftSteps >= targetSteps && rightSteps >= targetSteps) {
-          Motor_RotateAngle(90, 1000);
-          Motor_Stop();
-          TimedPause(500);
-//          Clock_Delay1ms(500);
-          Tachometer_LeftSteps = 0;
-          Tachometer_RightSteps = 0;
-          Motor_Forward(1000,1000);
-      }
+//        TimedPause(500);
+
+        Motor_RotateAngle(-90, 1000);
+        Motor_ForwardDist(15, 1000, 1000);  // Move 100 cm
+//        TimedPause(500);
     }
 }

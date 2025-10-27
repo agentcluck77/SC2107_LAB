@@ -1,6 +1,6 @@
 # FIXED
 
-SysTick.obj: C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/SysTick.c
+SysTick.obj: C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/SysTick.c
 SysTick.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h
 SysTick.obj: C:/ti/ccsv7/ccs_base/arm/include/msp.h
 SysTick.obj: C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h
@@ -11,7 +11,7 @@ SysTick.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h
 SysTick.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h
 SysTick.obj: C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h
 
-C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/SysTick.c: 
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/SysTick.c: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h: 

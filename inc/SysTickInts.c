@@ -63,9 +63,3 @@ void SysTick_Init(uint32_t period, uint32_t priority){
   SysTick->CTRL = 0x00000007;     // 4) enable SysTick with core clock and interrupts
 }
 
-// SysTick interrupt handler
-// Called automatically by hardware at 100Hz
-void SysTick_Handler(void){
-    Motor_SpeedControlISR();
-}
-

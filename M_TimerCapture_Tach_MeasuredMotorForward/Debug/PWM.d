@@ -1,6 +1,6 @@
 # FIXED
 
-PWM.obj: C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/PWM.c
+PWM.obj: C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/PWM.c
 PWM.obj: C:/ti/ccsv7/ccs_base/arm/include/msp.h
 PWM.obj: C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h
 PWM.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h
@@ -11,7 +11,7 @@ PWM.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h
 PWM.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h
 PWM.obj: C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h
 
-C:/Users/ALOY0058/Desktop/SC2107_FINAL/inc/PWM.c: 
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/PWM.c: 
 C:/ti/ccsv7/ccs_base/arm/include/msp.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 

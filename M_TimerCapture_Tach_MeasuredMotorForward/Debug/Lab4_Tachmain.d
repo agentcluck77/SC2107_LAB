@@ -19,6 +19,7 @@ Lab4_Tachmain.obj: ../../inc/TA3InputCapture.h
 Lab4_Tachmain.obj: ../../inc/TExaS.h
 Lab4_Tachmain.obj: ../../inc/Bump.h
 Lab4_Tachmain.obj: ../../inc/UART0.h
+Lab4_Tachmain.obj: ../../inc/SysTickInts.h
 
 ../Lab4_Tachmain.c: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 
@@ -39,3 +40,4 @@ C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h:
 ../../inc/TExaS.h: 
 ../../inc/Bump.h: 
 ../../inc/UART0.h: 
+../../inc/SysTickInts.h: 

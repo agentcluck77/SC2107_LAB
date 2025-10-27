@@ -114,7 +114,7 @@ void IRSensor_Init(void)    //code from Lab4_ADCmain.c
 {
     uint32_t raw12, raw16, raw17;
     int32_t n; uint32_t s;
-    Clock_Init48MHz();  //SMCLK=12Mhz
+    Clock_Init48MHz();  //SMCLK=12Mhzs
     ADCflag = 0;
     s = 256; // replace with your choice
     ADC0_InitSWTriggerCh17_12_16();   // initialize channels 17,12,16
@@ -137,7 +137,7 @@ void HandleCollision(uint8_t bumpSensor){
     P4->IFG &= ~0xED;   //clear interrupt flags in the Port 4 Interrupt Flag Register
 
     //Check individual bits and print messages
-    for(bumpAct; bumpAct < 6; bumpAct++){
+    for(bumpAct = 0; bumpAct < 6; bumpAct++){
         int bit = (CollisionData >> bumpAct) &1;
         if(bit == 0){
             //char message[20];
@@ -258,6 +258,7 @@ int main(void) {
               EUSCIA0_OutChar(CR); EUSCIA0_OutChar(LF);
               EUSCIA0_OutString("Selected: IR Sensor Test"); EUSCIA0_OutChar(CR); EUSCIA0_OutChar(LF);
               EUSCIA0_OutChar(CR); EUSCIA0_OutChar(LF);
+              IRSensor_Init();
 
               int32_t loopCounter;  //for inner loop: collects IR sensor data
               Clock_Init48MHz();
@@ -364,6 +365,7 @@ int main(void) {
               EUSCIA0_OutChar(CR); EUSCIA0_OutChar(LF);
               EUSCIA0_OutString("Selected: Reflectance Sensor Test"); EUSCIA0_OutChar(CR); EUSCIA0_OutChar(LF);
               EUSCIA0_OutChar(CR); EUSCIA0_OutChar(LF);
+              Reflectance_Init();
               uint8_t refData = 0;  //used to store data read from the reflectance sensors
               for(int i = 0; i<30; i++){    //repeat for 30 readings
                   refData = Reflectance_Read(1000);
@@ -391,7 +393,7 @@ int main(void) {
               while(LaunchPad_Input()==0){
                     WaitForInterrupt();
                     main_count++;                                       //increment for every iteration
-                    if(main_count%50000){                                //
+                    if(main_count%50000 == 0){                                //
                         UART0_OutString("Period0 = ");UART0_OutUDec5(Period0);UART0_OutString(" Period2 = ");UART0_OutUDec5(Period2);UART0_OutString(" \r\n");
                     }       //give the values to UART
                   }
@@ -463,13 +465,15 @@ int main(void) {
 
                 //int32_t loopCounter;  //for inner loop: collects IR sensor data
                 Clock_Init48MHz();
+                IRSensor_Init();
 
                 while(LaunchPad_Input()==0){
 
                     Motor_Forward(speed,speed);
 
                     EnableInterrupts();
-                    for(loopCounter; loopCounter < 2000; loopCounter++){    //duration specified bz loopCounter, wait for ADCflag to become non-zero (indication that it has processed the data)
+                    int32_t loopCounter = 0;
+                    for(loopCounter = 0; loopCounter < 2000; loopCounter++){    //duration specified bz loopCounter, wait for ADCflag to become non-zero (indication that it has processed the data)
                           while(ADCflag == 0){};
                           ADCflag = 0;
                         }
