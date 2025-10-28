@@ -66,6 +66,8 @@ policies, either expressed or implied, of the FreeBSD Project.
 #include "..\inc\TimerA1.h"
 #include "..\inc\TExaS.h"
 #include "..\inc\Reflectance.h"
+#include "../inc/Tachometer.h"
+#include "../inc/TA3InputCapture.h"
 
 
 volatile uint8_t bumpState;

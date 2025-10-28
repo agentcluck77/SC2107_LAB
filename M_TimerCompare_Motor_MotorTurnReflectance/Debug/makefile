@@ -18,7 +18,9 @@ ORDERED_OBJS += \
 "./Motor.obj" \
 "./PWM.obj" \
 "./Reflectance.obj" \
+"./TA3InputCapture.obj" \
 "./TExaS.obj" \
+"./Tachometer.obj" \
 "./TimerA1.obj" \
 "./startup_msp432p401r_ccs.obj" \
 "./system_msp432p401r.obj" \
@@ -165,8 +167,8 @@ M_TimerCompare_Motor_MotorTurnReflectance.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "Bump.obj" "Clock.obj" "CortexM.obj" "Lab3_Timersmain.obj" "LaunchPad.obj" "Motor.obj" "PWM.obj" "Reflectance.obj" "TExaS.obj" "TimerA1.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
-	-$(RM) "Bump.d" "Clock.d" "CortexM.d" "Lab3_Timersmain.d" "LaunchPad.d" "Motor.d" "PWM.d" "Reflectance.d" "TExaS.d" "TimerA1.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
+	-$(RM) "Bump.obj" "Clock.obj" "CortexM.obj" "Lab3_Timersmain.obj" "LaunchPad.obj" "Motor.obj" "PWM.obj" "Reflectance.obj" "TA3InputCapture.obj" "TExaS.obj" "Tachometer.obj" "TimerA1.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
+	-$(RM) "Bump.d" "Clock.d" "CortexM.d" "Lab3_Timersmain.d" "LaunchPad.d" "Motor.d" "PWM.d" "Reflectance.d" "TA3InputCapture.d" "TExaS.d" "Tachometer.d" "TimerA1.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

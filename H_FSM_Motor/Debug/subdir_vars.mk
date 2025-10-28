@@ -9,14 +9,14 @@ CMD_SRCS += \
 ../msp432p401r.cmd 
 
 C_SRCS += \
-C:/SC2108_FINAL-main/inc/Clock.c \
+C:/SC2107_LAB/inc/Clock.c \
 ../Lab2-FSMmain-11states.c \
-C:/SC2108_FINAL-main/inc/LaunchPad.c \
-C:/SC2108_FINAL-main/inc/Motor.c \
-C:/SC2108_FINAL-main/inc/PWM.c \
-C:/SC2108_FINAL-main/inc/Reflectance.c \
-C:/SC2108_FINAL-main/inc/TExaS.c \
-C:/SC2108_FINAL-main/inc/Tachometer.c \
+C:/SC2107_LAB/inc/LaunchPad.c \
+C:/SC2107_LAB/inc/Motor.c \
+C:/SC2107_LAB/inc/PWM.c \
+C:/SC2107_LAB/inc/Reflectance.c \
+C:/SC2107_LAB/inc/TExaS.c \
+C:/SC2107_LAB/inc/Tachometer.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
 
@@ -69,14 +69,14 @@ C_DEPS__QUOTED += \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"C:/SC2108_FINAL-main/inc/Clock.c" \
+"C:/SC2107_LAB/inc/Clock.c" \
 "../Lab2-FSMmain-11states.c" \
-"C:/SC2108_FINAL-main/inc/LaunchPad.c" \
-"C:/SC2108_FINAL-main/inc/Motor.c" \
-"C:/SC2108_FINAL-main/inc/PWM.c" \
-"C:/SC2108_FINAL-main/inc/Reflectance.c" \
-"C:/SC2108_FINAL-main/inc/TExaS.c" \
-"C:/SC2108_FINAL-main/inc/Tachometer.c" \
+"C:/SC2107_LAB/inc/LaunchPad.c" \
+"C:/SC2107_LAB/inc/Motor.c" \
+"C:/SC2107_LAB/inc/PWM.c" \
+"C:/SC2107_LAB/inc/Reflectance.c" \
+"C:/SC2107_LAB/inc/TExaS.c" \
+"C:/SC2107_LAB/inc/Tachometer.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 
 

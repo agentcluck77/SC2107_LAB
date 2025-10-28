@@ -56,36 +56,230 @@ policies, either expressed or implied, of the FreeBSD Project.
 #include "../inc/ADC14.h"
 #include "msp.h"
 
-
-/*
- * Routine to convert Filtered Raw ADC values to distance data.
- * Either via curve fitting (hyperbolic, polynomial, log etc), or piece-wise linear method.
+/* ========== CALIBRATION DATA ==========
+ * EDIT THESE ARRAYS WITH YOUR MEASURED VALUES
+ * Place objects at 3 known distances, measure the ADC values, then update these arrays
  */
-int32_t LeftConvert(int32_t nl){        // returns left distance in mm
-  // write this for Lab 4
-    uint32_t length=0;
-    length = 10*(90000/(nl-300));
-    if (length >= 5000) {
+
+/* Left sensor calibration data */
+static int32_t CAL_Left_ADC[3]  = {6500, 3200, 2100};  /* EDIT: Your measured ADC values */
+static int32_t CAL_Left_Dist[3] = {100, 300, 500};     /* EDIT: Actual distances in mm */
+
+/* Center sensor calibration data */
+static int32_t CAL_Center_ADC[3]  = {6800, 3400, 2200};  /* EDIT: Your measured ADC values */
+static int32_t CAL_Center_Dist[3] = {100, 300, 500};     /* EDIT: Actual distances in mm */
+
+/* Right sensor calibration data */
+static int32_t CAL_Right_ADC[3]  = {6300, 3100, 2050};  /* EDIT: Your measured ADC values */
+static int32_t CAL_Right_Dist[3] = {100, 300, 500};     /* EDIT: Actual distances in mm */
+
+
+/* ========== CALIBRATION PARAMETERS ==========
+ * Default values match original hardcoded formulas
+ * Left:   length = 10*(90000/(nl-300))     => A=900000, B=-300,  C=0
+ * Center: length = 10*(100000/(nc+900))    => A=1000000, B=900,  C=0
+ * Right:  length = 10*(90000/(nr-700))     => A=900000, B=-700,  C=0
+ */
+
+static int32_t Left_A   = 900000;
+static int32_t Left_B   = -300;
+static int32_t Left_C   = 0;
+
+static int32_t Center_A = 1000000;
+static int32_t Center_B = 900;
+static int32_t Center_C = 0;
+
+static int32_t Right_A  = 900000;
+static int32_t Right_B  = -700;
+static int32_t Right_C  = 0;
+
+
+/* ========== HELPER FUNCTION FOR CALIBRATION ==========
+ * Solve for A, B, C given 3 calibration points using iterative linearization.
+ * Model: D = A/(n + B) + C
+ *
+ * @param adc  Array of 3 ADC readings
+ * @param dist Array of 3 actual distances (mm)
+ * @param A    Pointer to store calculated A parameter
+ * @param B    Pointer to store calculated B parameter
+ * @param C    Pointer to store calculated C parameter
+ * @return 0 on success, -1 on failure
+ */
+static int32_t SolveCalibrationParams(int32_t adc[3], int32_t dist[3],
+                                       int32_t *A, int32_t *B, int32_t *C) {
+    int32_t C_guess;
+    int32_t iterations;
+    int32_t iter, i;
+    int64_t sum_n, sum_y, sum_ny, sum_nn;
+    int32_t D_adjusted;
+    int64_t y, n;
+    int64_t numerator, denominator;
+    int64_t m, A_new, b, B_new;
+    int64_t residual_sum;
+    int32_t predicted;
+
+    /* Check for invalid inputs */
+    if (dist[0] <= 0 || dist[1] <= 0 || dist[2] <= 0) return -1;
+    if (adc[0] == adc[1] || adc[1] == adc[2] || adc[0] == adc[2]) return -1;
+
+    /* Iterative linearization method */
+    /* Start with C = 0 guess */
+    C_guess = 0;
+    iterations = 5;  /* Usually converges in 2-3 iterations */
+
+    for (iter = 0; iter < iterations; iter++) {
+        /* Transform: y = 1/(D - C_guess), then y = (1/A)*n + (B/A) */
+        /* This becomes linear regression: y = m*n + b, where m = 1/A, b = B/A */
+
+        sum_n = 0;
+        sum_y = 0;
+        sum_ny = 0;
+        sum_nn = 0;
+
+        for (i = 0; i < 3; i++) {
+            D_adjusted = dist[i] - C_guess;
+            if (D_adjusted <= 0) {
+                /* Adjust C_guess if it's too large */
+                C_guess = dist[i] - 10;  /* Leave some margin */
+                D_adjusted = 10;
+            }
+
+            /* y = 1/D_adjusted (scaled by 1000000 to avoid floating point) */
+            y = (1000000LL * 1000) / D_adjusted;
+            n = adc[i];
+
+            sum_n  += n;
+            sum_y  += y;
+            sum_ny += n * y / 1000;  /* Scale down to prevent overflow */
+            sum_nn += n * n;
+        }
+
+        /* Linear regression: m = (N*sum_xy - sum_x*sum_y) / (N*sum_xx - sum_x*sum_x) */
+        numerator   = 3 * sum_ny - sum_n * sum_y / 1000;
+        denominator = 3 * sum_nn - sum_n * sum_n;
+
+        if (denominator == 0) return -1;
+
+        m = (numerator * 1000) / denominator;  /* m = 1/A (scaled) */
+
+        if (m == 0) return -1;
+
+        /* A = 1/m */
+        A_new = (1000000LL * 1000000) / m;
+
+        /* b = (sum_y - m*sum_n) / N */
+        b = (sum_y - m * sum_n / 1000) / 3;
+
+        /* B = b * A */
+        B_new = (b * A_new) / 1000000;
+
+        /* Update C estimate: average residual */
+        residual_sum = 0;
+        for (i = 0; i < 3; i++) {
+            predicted = (int32_t)(A_new / (adc[i] + B_new));
+            residual_sum += (dist[i] - predicted);
+        }
+        C_guess = (int32_t)(residual_sum / 3);
+
+        /* Store final values */
+        *A = (int32_t)A_new;
+        *B = (int32_t)B_new;
+        *C = C_guess;
+    }
+
+    return 0;
+}
+
+
+/* ========== CALIBRATION FUNCTION ==========
+// Usage:
+// Edit the arrays at the top for nl, nc, nr values (from lab4)
+// then simply run this function each time u want to use the calibrated values. if you do not run it, then it will use the default values.
+CalibrateIRSensors();
+*/
+int32_t CalibrateIRSensors(void) {
+    int32_t result;
+
+    result = 0;
+
+    /* Calibrate Left sensor */
+    if (SolveCalibrationParams(CAL_Left_ADC, CAL_Left_Dist, &Left_A, &Left_B, &Left_C) != 0) {
+        result = -1;
+    }
+
+    /* Calibrate Center sensor */
+    if (SolveCalibrationParams(CAL_Center_ADC, CAL_Center_Dist, &Center_A, &Center_B, &Center_C) != 0) {
+        result = -1;
+    }
+
+    /* Calibrate Right sensor */
+    if (SolveCalibrationParams(CAL_Right_ADC, CAL_Right_Dist, &Right_A, &Right_B, &Right_C) != 0) {
+        result = -1;
+    }
+
+    return result;
+}
+
+
+/* ========== CONVERSION FUNCTIONS ==========
+ * Routine to convert Filtered Raw ADC values to distance data.
+ * Uses calibrated 3-parameter model: D = A/(n + B) + C
+ */
+int32_t LeftConvert(int32_t nl){        /* returns left distance in mm */
+    int32_t denominator;
+    int32_t length;
+
+    denominator = nl + Left_B;
+
+    /* Avoid division by zero */
+    if (denominator == 0) {
+        return 5000;
+    }
+
+    length = Left_A / denominator + Left_C;
+
+    /* Clamp to maximum */
+    if (length >= 5000 || length < 0) {
         return 5000;
     }
     return length;
 }
 
-int32_t CenterConvert(int32_t nc){   // returns center distance in mm
-  // write this for Lab 4
-    uint32_t length=0;
-    length = 10*(100000/(nc+900));
-    if (length >= 5000) {
-            return 5000;
-        }
+int32_t CenterConvert(int32_t nc){   /* returns center distance in mm */
+    int32_t denominator;
+    int32_t length;
+
+    denominator = nc + Center_B;
+
+    /* Avoid division by zero */
+    if (denominator == 0) {
+        return 5000;
+    }
+
+    length = Center_A / denominator + Center_C;
+
+    /* Clamp to maximum */
+    if (length >= 5000 || length < 0) {
+        return 5000;
+    }
     return length;
 }
 
-int32_t RightConvert(int32_t nr){      // returns right distance in mm
-  // write this for Lab 4
-    uint32_t length=0;
-    length = 10*(90000/(nr-700));
-    if (length >= 5000) {
+int32_t RightConvert(int32_t nr){      /* returns right distance in mm */
+    int32_t denominator;
+    int32_t length;
+
+    denominator = nr + Right_B;
+
+    /* Avoid division by zero */
+    if (denominator == 0) {
+        return 5000;
+    }
+
+    length = Right_A / denominator + Right_C;
+
+    /* Clamp to maximum */
+    if (length >= 5000 || length < 0) {
         return 5000;
     }
     return length;

@@ -9,16 +9,18 @@ CMD_SRCS += \
 ../msp432p401r.cmd 
 
 C_SRCS += \
-C:/SC2108_FINAL-main/inc/Bump.c \
-C:/SC2108_FINAL-main/inc/Clock.c \
-C:/SC2108_FINAL-main/inc/CortexM.c \
+C:/SC2107_LAB/inc/Bump.c \
+C:/SC2107_LAB/inc/Clock.c \
+C:/SC2107_LAB/inc/CortexM.c \
 ../Lab3_Timersmain.c \
-C:/SC2108_FINAL-main/inc/LaunchPad.c \
-C:/SC2108_FINAL-main/inc/Motor.c \
-C:/SC2108_FINAL-main/inc/PWM.c \
-C:/SC2108_FINAL-main/inc/Reflectance.c \
-C:/SC2108_FINAL-main/inc/TExaS.c \
-C:/SC2108_FINAL-main/inc/TimerA1.c \
+C:/SC2107_LAB/inc/LaunchPad.c \
+C:/SC2107_LAB/inc/Motor.c \
+C:/SC2107_LAB/inc/PWM.c \
+C:/SC2107_LAB/inc/Reflectance.c \
+C:/SC2107_LAB/inc/TA3InputCapture.c \
+C:/SC2107_LAB/inc/TExaS.c \
+C:/SC2107_LAB/inc/Tachometer.c \
+C:/SC2107_LAB/inc/TimerA1.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
 
@@ -31,7 +33,9 @@ C_DEPS += \
 ./Motor.d \
 ./PWM.d \
 ./Reflectance.d \
+./TA3InputCapture.d \
 ./TExaS.d \
+./Tachometer.d \
 ./TimerA1.d \
 ./startup_msp432p401r_ccs.d \
 ./system_msp432p401r.d 
@@ -45,7 +49,9 @@ OBJS += \
 ./Motor.obj \
 ./PWM.obj \
 ./Reflectance.obj \
+./TA3InputCapture.obj \
 ./TExaS.obj \
+./Tachometer.obj \
 ./TimerA1.obj \
 ./startup_msp432p401r_ccs.obj \
 ./system_msp432p401r.obj 
@@ -59,7 +65,9 @@ OBJS__QUOTED += \
 "Motor.obj" \
 "PWM.obj" \
 "Reflectance.obj" \
+"TA3InputCapture.obj" \
 "TExaS.obj" \
+"Tachometer.obj" \
 "TimerA1.obj" \
 "startup_msp432p401r_ccs.obj" \
 "system_msp432p401r.obj" 
@@ -73,22 +81,26 @@ C_DEPS__QUOTED += \
 "Motor.d" \
 "PWM.d" \
 "Reflectance.d" \
+"TA3InputCapture.d" \
 "TExaS.d" \
+"Tachometer.d" \
 "TimerA1.d" \
 "startup_msp432p401r_ccs.d" \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"C:/SC2108_FINAL-main/inc/Bump.c" \
-"C:/SC2108_FINAL-main/inc/Clock.c" \
-"C:/SC2108_FINAL-main/inc/CortexM.c" \
+"C:/SC2107_LAB/inc/Bump.c" \
+"C:/SC2107_LAB/inc/Clock.c" \
+"C:/SC2107_LAB/inc/CortexM.c" \
 "../Lab3_Timersmain.c" \
-"C:/SC2108_FINAL-main/inc/LaunchPad.c" \
-"C:/SC2108_FINAL-main/inc/Motor.c" \
-"C:/SC2108_FINAL-main/inc/PWM.c" \
-"C:/SC2108_FINAL-main/inc/Reflectance.c" \
-"C:/SC2108_FINAL-main/inc/TExaS.c" \
-"C:/SC2108_FINAL-main/inc/TimerA1.c" \
+"C:/SC2107_LAB/inc/LaunchPad.c" \
+"C:/SC2107_LAB/inc/Motor.c" \
+"C:/SC2107_LAB/inc/PWM.c" \
+"C:/SC2107_LAB/inc/Reflectance.c" \
+"C:/SC2107_LAB/inc/TA3InputCapture.c" \
+"C:/SC2107_LAB/inc/TExaS.c" \
+"C:/SC2107_LAB/inc/Tachometer.c" \
+"C:/SC2107_LAB/inc/TimerA1.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 
 

@@ -1,8 +1,8 @@
 # FIXED
 
-IRDistance.obj: C:/SC2107_FINAL/inc/IRDistance.c
+IRDistance.obj: C:/SC2107_LAB/inc/IRDistance.c
 IRDistance.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h
-IRDistance.obj: C:/SC2107_FINAL/inc/../inc/ADC14.h
+IRDistance.obj: C:/SC2107_LAB/inc/../inc/ADC14.h
 IRDistance.obj: C:/ti/ccsv7/ccs_base/arm/include/msp.h
 IRDistance.obj: C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h
 IRDistance.obj: C:/ti/ccsv7/ccs_base/arm/include/msp_compatibility.h
@@ -12,9 +12,9 @@ IRDistance.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h
 IRDistance.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h
 IRDistance.obj: C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h
 
-C:/SC2107_FINAL/inc/IRDistance.c: 
+C:/SC2107_LAB/inc/IRDistance.c: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 
-C:/SC2107_FINAL/inc/../inc/ADC14.h: 
+C:/SC2107_LAB/inc/../inc/ADC14.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp_compatibility.h: 

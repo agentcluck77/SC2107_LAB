@@ -101,6 +101,7 @@ int main(void){
   TimerA1_Init(&SensorRead_ISR,250);    // 2000 Hz sampling
   UART0_OutString("GP2Y0A21YK0F test\nValvano Oct 2017\nConnect analog signals to P9.0,P4.1,P9.1\n");
   EnableInterrupts();
+  CalibrateIRSensors();
   while(1){
     for(n=0; n<2000; n++){
       while(ADCflag == 0){};

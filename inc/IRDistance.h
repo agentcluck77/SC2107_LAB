@@ -93,4 +93,21 @@ int32_t CenterConvert(int32_t nc);
  */
 int32_t RightConvert(int32_t nr);      // returns right distance in mm
 
+/**
+ * Calibrate all three IR sensors using pre-defined calibration data.
+ * Reads calibration arrays from IRDistance.c and computes parameters.
+ * Uses full 3-parameter model: D = A/(n + B) + C
+ *
+ * @return 0 on success, -1 on failure (division by zero, invalid data)
+ * @brief  Calibrate IR sensors with measurements defined in IRDistance.c
+ *
+ * @note To use calibration:
+ *   1. Edit the calibration arrays in IRDistance.c (lines 64-74)
+ *   2. Place objects at 3 known distances for each sensor
+ *   3. Measure ADC values using debugger and update the arrays
+ *   4. Call CalibrateIRSensors() once at startup
+ *   5. If not called, default formulas are used
+ */
+int32_t CalibrateIRSensors(void);
+
 #endif /* IRDISTANCE_H_ */

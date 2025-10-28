@@ -66,6 +66,8 @@ policies, either expressed or implied, of the FreeBSD Project.
 #include "../inc/LaunchPad.h"
 #include "../inc/ADC14.h"
 #include "../inc/LPF.h"
+#include "../inc/Tachometer.h"
+#include "../inc/TA3InputCapture.h"
 
 // for motor control
 #include "../inc/Motor.h"

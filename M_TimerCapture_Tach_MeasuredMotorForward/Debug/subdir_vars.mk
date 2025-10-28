@@ -9,18 +9,18 @@ CMD_SRCS += \
 ../msp432p401r.cmd 
 
 C_SRCS += \
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Bump.c \
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Clock.c \
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/CortexM.c \
+C:/SC2107_LAB/inc/Bump.c \
+C:/SC2107_LAB/inc/Clock.c \
+C:/SC2107_LAB/inc/CortexM.c \
 ../Lab4_Tachmain.c \
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/LaunchPad.c \
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Motor.c \
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/PWM.c \
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/SysTickInts.c \
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/TA3InputCapture.c \
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/TExaS.c \
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Tachometer.c \
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/UART0.c \
+C:/SC2107_LAB/inc/LaunchPad.c \
+C:/SC2107_LAB/inc/Motor.c \
+C:/SC2107_LAB/inc/PWM.c \
+C:/SC2107_LAB/inc/SysTickInts.c \
+C:/SC2107_LAB/inc/TA3InputCapture.c \
+C:/SC2107_LAB/inc/TExaS.c \
+C:/SC2107_LAB/inc/Tachometer.c \
+C:/SC2107_LAB/inc/UART0.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
 
@@ -89,18 +89,18 @@ C_DEPS__QUOTED += \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Bump.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Clock.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/CortexM.c" \
+"C:/SC2107_LAB/inc/Bump.c" \
+"C:/SC2107_LAB/inc/Clock.c" \
+"C:/SC2107_LAB/inc/CortexM.c" \
 "../Lab4_Tachmain.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/LaunchPad.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Motor.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/PWM.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/SysTickInts.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/TA3InputCapture.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/TExaS.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Tachometer.c" \
-"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/UART0.c" \
+"C:/SC2107_LAB/inc/LaunchPad.c" \
+"C:/SC2107_LAB/inc/Motor.c" \
+"C:/SC2107_LAB/inc/PWM.c" \
+"C:/SC2107_LAB/inc/SysTickInts.c" \
+"C:/SC2107_LAB/inc/TA3InputCapture.c" \
+"C:/SC2107_LAB/inc/TExaS.c" \
+"C:/SC2107_LAB/inc/Tachometer.c" \
+"C:/SC2107_LAB/inc/UART0.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 
 

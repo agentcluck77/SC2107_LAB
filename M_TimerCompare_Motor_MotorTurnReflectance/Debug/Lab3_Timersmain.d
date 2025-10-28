@@ -19,6 +19,8 @@ Lab3_Timersmain.obj: ../../inc/Motor.h
 Lab3_Timersmain.obj: ../../inc/TimerA1.h
 Lab3_Timersmain.obj: ../../inc/TExaS.h
 Lab3_Timersmain.obj: ../../inc/Reflectance.h
+Lab3_Timersmain.obj: ../../inc/Tachometer.h
+Lab3_Timersmain.obj: ../../inc/TA3InputCapture.h
 
 ../Lab3_Timersmain.c: 
 C:/ti/ccsv7/ccs_base/arm/include/msp.h: 
@@ -39,3 +41,5 @@ C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h:
 ../../inc/TimerA1.h: 
 ../../inc/TExaS.h: 
 ../../inc/Reflectance.h: 
+../../inc/Tachometer.h: 
+../../inc/TA3InputCapture.h: 

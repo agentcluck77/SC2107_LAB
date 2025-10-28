@@ -1,6 +1,6 @@
 # FIXED
 
-Bump.obj: C:/SC2107_FINAL/inc/Bump.c
+Bump.obj: C:/SC2107_LAB/inc/Bump.c
 Bump.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h
 Bump.obj: C:/ti/ccsv7/ccs_base/arm/include/msp.h
 Bump.obj: C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h
@@ -11,7 +11,7 @@ Bump.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h
 Bump.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h
 Bump.obj: C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h
 
-C:/SC2107_FINAL/inc/Bump.c: 
+C:/SC2107_LAB/inc/Bump.c: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h: 

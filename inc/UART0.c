@@ -158,6 +158,21 @@ void UART0_OutUDec(uint32_t n){
   }
   UART0_OutChar(n+'0'); /* n is between 0 and 9 */
 }
+
+//--------------------------UART0_OutUBin----------------------------
+// Output a 32-bit number in unsigned binary format
+// Input: 32-bit number to be transferred
+// Output: none
+// Variable format 1 to 32 digits with no space before or after
+void UART0_OutUBin(uint32_t n){
+// This function uses recursion to convert the number of
+//   unspecified length as an ASCII string
+  if(n >= 2){
+    UART0_OutUBin(n/2);
+    n = n%2;
+  }
+  UART0_OutChar(n+'0'); /* n is between 0 and 1 */
+}
 uint32_t Messageindexb;
 char Messageb[8];
 void static fillmessageb(uint32_t n){

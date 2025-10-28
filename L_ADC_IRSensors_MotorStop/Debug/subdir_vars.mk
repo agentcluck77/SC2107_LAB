@@ -9,18 +9,20 @@ CMD_SRCS += \
 ../msp432p401r.cmd 
 
 C_SRCS += \
-C:/SC2108_FINAL-main/inc/ADC14.c \
-C:/SC2108_FINAL-main/inc/Bump.c \
-C:/SC2108_FINAL-main/inc/Clock.c \
-C:/SC2108_FINAL-main/inc/CortexM.c \
-C:/SC2108_FINAL-main/inc/IRDistance.c \
-C:/SC2108_FINAL-main/inc/LPF.c \
+C:/SC2107_LAB/inc/ADC14.c \
+C:/SC2107_LAB/inc/Bump.c \
+C:/SC2107_LAB/inc/Clock.c \
+C:/SC2107_LAB/inc/CortexM.c \
+C:/SC2107_LAB/inc/IRDistance.c \
+C:/SC2107_LAB/inc/LPF.c \
 ../Lab4_ADCmain.c \
-C:/SC2108_FINAL-main/inc/LaunchPad.c \
-C:/SC2108_FINAL-main/inc/Motor.c \
-C:/SC2108_FINAL-main/inc/PWM.c \
-C:/SC2108_FINAL-main/inc/TimerA1.c \
-C:/SC2108_FINAL-main/inc/UART0.c \
+C:/SC2107_LAB/inc/LaunchPad.c \
+C:/SC2107_LAB/inc/Motor.c \
+C:/SC2107_LAB/inc/PWM.c \
+C:/SC2107_LAB/inc/TA3InputCapture.c \
+C:/SC2107_LAB/inc/Tachometer.c \
+C:/SC2107_LAB/inc/TimerA1.c \
+C:/SC2107_LAB/inc/UART0.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
 
@@ -35,6 +37,8 @@ C_DEPS += \
 ./LaunchPad.d \
 ./Motor.d \
 ./PWM.d \
+./TA3InputCapture.d \
+./Tachometer.d \
 ./TimerA1.d \
 ./UART0.d \
 ./startup_msp432p401r_ccs.d \
@@ -51,6 +55,8 @@ OBJS += \
 ./LaunchPad.obj \
 ./Motor.obj \
 ./PWM.obj \
+./TA3InputCapture.obj \
+./Tachometer.obj \
 ./TimerA1.obj \
 ./UART0.obj \
 ./startup_msp432p401r_ccs.obj \
@@ -67,6 +73,8 @@ OBJS__QUOTED += \
 "LaunchPad.obj" \
 "Motor.obj" \
 "PWM.obj" \
+"TA3InputCapture.obj" \
+"Tachometer.obj" \
 "TimerA1.obj" \
 "UART0.obj" \
 "startup_msp432p401r_ccs.obj" \
@@ -83,24 +91,28 @@ C_DEPS__QUOTED += \
 "LaunchPad.d" \
 "Motor.d" \
 "PWM.d" \
+"TA3InputCapture.d" \
+"Tachometer.d" \
 "TimerA1.d" \
 "UART0.d" \
 "startup_msp432p401r_ccs.d" \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"C:/SC2108_FINAL-main/inc/ADC14.c" \
-"C:/SC2108_FINAL-main/inc/Bump.c" \
-"C:/SC2108_FINAL-main/inc/Clock.c" \
-"C:/SC2108_FINAL-main/inc/CortexM.c" \
-"C:/SC2108_FINAL-main/inc/IRDistance.c" \
-"C:/SC2108_FINAL-main/inc/LPF.c" \
+"C:/SC2107_LAB/inc/ADC14.c" \
+"C:/SC2107_LAB/inc/Bump.c" \
+"C:/SC2107_LAB/inc/Clock.c" \
+"C:/SC2107_LAB/inc/CortexM.c" \
+"C:/SC2107_LAB/inc/IRDistance.c" \
+"C:/SC2107_LAB/inc/LPF.c" \
 "../Lab4_ADCmain.c" \
-"C:/SC2108_FINAL-main/inc/LaunchPad.c" \
-"C:/SC2108_FINAL-main/inc/Motor.c" \
-"C:/SC2108_FINAL-main/inc/PWM.c" \
-"C:/SC2108_FINAL-main/inc/TimerA1.c" \
-"C:/SC2108_FINAL-main/inc/UART0.c" \
+"C:/SC2107_LAB/inc/LaunchPad.c" \
+"C:/SC2107_LAB/inc/Motor.c" \
+"C:/SC2107_LAB/inc/PWM.c" \
+"C:/SC2107_LAB/inc/TA3InputCapture.c" \
+"C:/SC2107_LAB/inc/Tachometer.c" \
+"C:/SC2107_LAB/inc/TimerA1.c" \
+"C:/SC2107_LAB/inc/UART0.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 
 

@@ -1,11 +1,11 @@
 # FIXED
 
-UART0.obj: C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/UART0.c
+UART0.obj: C:/SC2107_LAB/inc/UART0.c
 UART0.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h
 UART0.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdio.h
 UART0.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/linkage.h
 UART0.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdarg.h
-UART0.obj: C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/UART0.h
+UART0.obj: C:/SC2107_LAB/inc/UART0.h
 UART0.obj: C:/ti/ccsv7/ccs_base/arm/include/msp.h
 UART0.obj: C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h
 UART0.obj: C:/ti/ccsv7/ccs_base/arm/include/msp_compatibility.h
@@ -16,12 +16,12 @@ UART0.obj: C:/ti/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h
 UART0.obj: C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h
 UART0.obj: C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/file.h
 
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/UART0.c: 
+C:/SC2107_LAB/inc/UART0.c: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdio.h: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/linkage.h: 
 C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdarg.h: 
-C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/UART0.h: 
+C:/SC2107_LAB/inc/UART0.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp432p401r.h: 
 C:/ti/ccsv7/ccs_base/arm/include/msp_compatibility.h: 

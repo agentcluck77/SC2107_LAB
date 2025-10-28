@@ -20,6 +20,8 @@ ORDERED_OBJS += \
 "./LaunchPad.obj" \
 "./Motor.obj" \
 "./PWM.obj" \
+"./TA3InputCapture.obj" \
+"./Tachometer.obj" \
 "./TimerA1.obj" \
 "./UART0.obj" \
 "./startup_msp432p401r_ccs.obj" \
@@ -167,8 +169,8 @@ L_ADC_IRSensors_MotorStop.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ADC14.obj" "Bump.obj" "Clock.obj" "CortexM.obj" "IRDistance.obj" "LPF.obj" "Lab4_ADCmain.obj" "LaunchPad.obj" "Motor.obj" "PWM.obj" "TimerA1.obj" "UART0.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
-	-$(RM) "ADC14.d" "Bump.d" "Clock.d" "CortexM.d" "IRDistance.d" "LPF.d" "Lab4_ADCmain.d" "LaunchPad.d" "Motor.d" "PWM.d" "TimerA1.d" "UART0.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
+	-$(RM) "ADC14.obj" "Bump.obj" "Clock.obj" "CortexM.obj" "IRDistance.obj" "LPF.obj" "Lab4_ADCmain.obj" "LaunchPad.obj" "Motor.obj" "PWM.obj" "TA3InputCapture.obj" "Tachometer.obj" "TimerA1.obj" "UART0.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
+	-$(RM) "ADC14.d" "Bump.d" "Clock.d" "CortexM.d" "IRDistance.d" "LPF.d" "Lab4_ADCmain.d" "LaunchPad.d" "Motor.d" "PWM.d" "TA3InputCapture.d" "Tachometer.d" "TimerA1.d" "UART0.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

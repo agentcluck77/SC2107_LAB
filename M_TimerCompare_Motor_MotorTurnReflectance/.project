@@ -61,9 +61,19 @@
 			<locationURI>PARENT-1-PROJECT_LOC/inc/Reflectance.c</locationURI>
 		</link>
 		<link>
+			<name>TA3InputCapture.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/TA3InputCapture.c</locationURI>
+		</link>
+		<link>
 			<name>TExaS.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/inc/TExaS.c</locationURI>
+		</link>
+		<link>
+			<name>Tachometer.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/Tachometer.c</locationURI>
 		</link>
 		<link>
 			<name>TimerA1.c</name>

@@ -11,3 +11,5 @@
 1761553109711	Rename resource 'L_Bump_Reflectance_Systick_LED'
 1761554339847	Rename resource 'Copy of L_Bump_Reflectance_Systick_BumpLEDConversions_all'
 1761619589225	Delete 4 resources
+1761633773984	Delete resource 'H_FSM_Motor'
+1761637042177	Delete resource 'H_TimerCompare_Motor_WandererBot/Bump.c'

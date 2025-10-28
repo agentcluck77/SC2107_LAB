@@ -18,6 +18,8 @@ Lab4_ADCmain.obj: ../../inc/UART0.h
 Lab4_ADCmain.obj: ../../inc/LaunchPad.h
 Lab4_ADCmain.obj: ../../inc/ADC14.h
 Lab4_ADCmain.obj: ../../inc/LPF.h
+Lab4_ADCmain.obj: ../../inc/Tachometer.h
+Lab4_ADCmain.obj: ../../inc/TA3InputCapture.h
 Lab4_ADCmain.obj: ../../inc/Motor.h
 Lab4_ADCmain.obj: ../../inc/PWM.h
 Lab4_ADCmain.obj: ../../inc/Bump.h
@@ -40,6 +42,8 @@ C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h:
 ../../inc/LaunchPad.h: 
 ../../inc/ADC14.h: 
 ../../inc/LPF.h: 
+../../inc/Tachometer.h: 
+../../inc/TA3InputCapture.h: 
 ../../inc/Motor.h: 
 ../../inc/PWM.h: 
 ../../inc/Bump.h: 
