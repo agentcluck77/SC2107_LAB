@@ -1,0 +1,216 @@
+// Lab3_Timersmain.c
+
+#include "msp.h"
+#include "..\inc\Clock.h"
+#include "..\inc\SysTick.h"
+#include "..\inc\CortexM.h"
+#include "..\inc\LaunchPad.h"
+#include "..\inc\Motor.h"
+#include "..\inc\TimerA1.h"
+#include "..\inc\TExaS.h"
+#include "..\inc\Reflectance.h"
+#include "..\inc\Tachometer.h"
+#include "..\inc\TA3InputCapture.h"
+#include "..\inc\PWM.h"
+#include "..\inc\BumpInt.h"
+#include "..\inc\ADC14.h"
+#include "..\inc\IRDistance.h"
+
+// Global variables
+volatile uint8_t bumpState;
+
+// Robot operating modes
+typedef enum {
+    MODE_WANDERING,
+    MODE_LINE_FOLLOWING
+} RobotMode_t;
+
+volatile RobotMode_t currentMode = MODE_WANDERING;
+
+// Speed definitions
+#define WANDER_SPEED 1000
+#define LINE_SPEED 500
+#define TURN_SPEED 1000
+
+// Threshold definitions
+#define IR_THRESHOLD 200
+#define LINE_DETECT_THRESHOLD 1000  // Reflectance sensor time in us
+
+// FSM for line following
+struct State {
+    uint32_t out;                // 2-bit output
+    uint32_t delay;              // time to delay in 1ms
+    const struct State *next[4]; // Next if 2-bit input is 0-3
+};
+typedef const struct State State_t;
+
+#define Center    &fsm[0]
+#define Left      &fsm[1]
+#define Right     &fsm[2]
+
+State_t fsm[3]={
+    {0x03, 10, { Right, Left,   Right,  Center }},  // Center: both motors forward
+    {0x02, 10, { Left,  Center, Right,  Center }},  // Left: left motor only (turn right)
+    {0x01, 10, { Right, Left,   Center, Center }}   // Right: right motor only (turn left)
+};
+
+State_t *Spt = Center;  // pointer to the current state
+
+// Driver test
+void TimedPause(uint32_t time){
+  Clock_Delay1ms(time);
+  Motor_Stop();
+  while(LaunchPad_Input()==0);  // wait for touch
+  while(LaunchPad_Input());     // wait for release
+}
+
+// Control motors based on FSM output for line following
+void ControlMotors(uint32_t output) {
+    switch(output) {
+        case 0x00:  // both off, stop
+            Motor_Stop();
+            break;
+        case 0x01:  // right motor only, turn left
+            Motor_Left(TURN_SPEED, TURN_SPEED);
+            break;
+        case 0x02:  // left motor only, turn right
+            Motor_Right(TURN_SPEED, TURN_SPEED);
+            break;
+        case 0x03:  // both motors, go straight
+            Motor_Forward(LINE_SPEED, LINE_SPEED);
+            break;
+        default:
+            Motor_Stop();
+            break;
+    }
+}
+
+// Bump sensor interrupt handler
+void Task(uint8_t bumpstate){
+    if(bumpstate != 0x3F){
+        // Exit line following mode if bump detected
+        currentMode = MODE_WANDERING;
+
+        // reverse 10cm
+        Motor_ForwardDist(10, WANDER_SPEED, WANDER_SPEED);  // Fixed: positive value
+
+        // rotate based on which bump sensor was triggered
+        if ((bumpstate & 0b000001) || (bumpstate & 0b000010)) {
+            // right bumps activated, turn left 90 deg
+            Motor_RotateAngle(-90, WANDER_SPEED);
+        }
+        else if ((bumpstate & 0b100000) || (bumpstate & 0b010000)) {
+            // left bumps activated, turn right 90 deg
+            Motor_RotateAngle(90, WANDER_SPEED);
+        }
+        else {
+            // middle bump activated, turn left 90 deg
+            Motor_RotateAngle(-90, WANDER_SPEED);
+        }
+    }
+}
+
+// Check if robot has encountered a line
+uint8_t CheckForLine(void) {
+    uint8_t reflectance = Reflectance_Read(LINE_DETECT_THRESHOLD);
+    // If any of the center sensors detect a line (black)
+    if (reflectance != 0x00) {
+        return 1;  // Line detected
+    }
+    return 0;  // No line
+}
+
+// Wandering behavior using IR sensors
+void WanderMode(uint32_t right_mm, uint32_t center_mm, uint32_t left_mm) {
+    if (center_mm < IR_THRESHOLD) {
+        Motor_Stop();
+        Motor_ForwardDist(10, WANDER_SPEED, WANDER_SPEED);  // Reverse
+        Motor_RotateAngle(-90, WANDER_SPEED);  // Turn left
+    }
+    else if (left_mm < IR_THRESHOLD) {
+        Motor_Stop();
+        Motor_ForwardDist(10, WANDER_SPEED, WANDER_SPEED);  // Reverse
+        Motor_RotateAngle(90, WANDER_SPEED);  // Turn right
+    }
+    else if (right_mm < IR_THRESHOLD) {
+        Motor_Stop();
+        Motor_ForwardDist(10, WANDER_SPEED, WANDER_SPEED);  // Reverse
+        Motor_RotateAngle(-90, WANDER_SPEED);  // Turn left
+    }
+    else {
+        Motor_Forward(WANDER_SPEED, WANDER_SPEED);
+        Clock_Delay1ms(100);
+    }
+}
+
+// Line following behavior using reflectance sensors
+void LineFollowMode(void) {
+    uint32_t input;
+    uint32_t output;
+
+    output = Spt->out;              // Set output from FSM
+    ControlMotors(output);          // Control motors
+    Clock_Delay1ms(Spt->delay);     // Wait
+    input = Reflectance_Center(LINE_DETECT_THRESHOLD);  // Read center sensors
+
+    // If line is lost (input == 0), return to wandering mode
+    if (input == 0) {
+        Motor_Stop();
+        Clock_Delay1ms(500);  // Brief pause
+        currentMode = MODE_WANDERING;
+        Spt = Center;  // Reset FSM
+    } else {
+        Spt = Spt->next[input];  // Next state depends on input
+    }
+}
+
+int main(void){
+    // Initialize all subsystems
+    Clock_Init48MHz();
+    LaunchPad_Init();
+    BumpInt_Init(&Task);
+    Motor_Init();
+    Tachometer_Init();
+    Reflectance_Init();  // Initialize reflectance sensors
+    TExaS_Init(LOGICANALYZER_P2);
+    bumpState = 0x3F;
+    EnableInterrupts();
+
+    // IR setup
+    uint32_t right_raw, center_raw, left_raw;
+    int32_t right_mm, center_mm, left_mm;
+
+    ADC0_InitSWTriggerCh17_12_16();
+    CalibrateIRSensors();
+
+    TimedPause(1000);  // Wait for button press to start
+
+    while(1){
+        if (currentMode == MODE_WANDERING) {
+            // Check for line detection
+            if (CheckForLine()) {
+                Motor_Stop();
+                Clock_Delay1ms(100);
+                // Verify it's really a line
+                if (CheckForLine()) {
+                    currentMode = MODE_LINE_FOLLOWING;
+                    Spt = Center;  // Reset FSM to center state
+                    LaunchPad_LED(1);  // Turn on LED to indicate line following
+                    continue;
+                }
+            }
+
+            // Normal wandering behavior
+            ADC_In17_12_16(&right_raw, &center_raw, &left_raw);
+            right_mm = RightConvert(right_raw);
+            center_mm = CenterConvert(center_raw);
+            left_mm = LeftConvert(left_raw);
+
+            WanderMode(right_mm, center_mm, left_mm);
+            LaunchPad_LED(0);  // LED off in wander mode
+        }
+        else if (currentMode == MODE_LINE_FOLLOWING) {
+            LineFollowMode();
+        }
+    }
+}

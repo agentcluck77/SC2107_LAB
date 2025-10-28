@@ -159,6 +159,6 @@ void Motor_RotateAngle(int16_t angle, uint16_t speed);
  * @note 360 steps = 22 cm (220 mm wheel circumference)
  * @brief Drive forward for specified distance
  */
-void Motor_ForwardDist(uint16_t distance_cm, uint16_t leftDuty, uint16_t rightDuty);
+void Motor_ForwardDist(int16_t distance_cm, uint16_t leftDuty, uint16_t rightDuty);
 
 #endif /* MOTOR_H_ */

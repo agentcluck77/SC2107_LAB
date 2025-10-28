@@ -4911,3 +4911,183 @@ java.io.FileNotFoundException: C:\SC2107_LAB\.metadata\.plugins\org.eclipse.core
 	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2283)
 	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor$4.run(IDEWorkbenchAdvisor.java:456)
 	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
+!SESSION 2025-10-28 20:45:08.027 -----------------------------------------------
+eclipse.buildId=4.6.0.I20160606-1100
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_SG
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2025-10-28 20:45:22.814
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2025-10-28 20:45:22.820
+!MESSAGE debugServerDir=C:/ti/ccsv7/ccs_base/DebugServer
+
+!ENTRY com.ti.ccstudio.errorparser 4 0 2025-10-28 20:46:21.018
+!MESSAGE An internal error was logged by 'com.ti.ccstudio.errorparser'.
+!STACK 0
+org.jsoup.HttpStatusException: HTTP error fetching URL. Status=421, URL=https://processors.wiki.ti.com/index.php/Compiler/diagnostic_messages/
+	at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:590)
+	at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:587)
+	at org.jsoup.helper.HttpConnection$Response.execute(HttpConnection.java:540)
+	at org.jsoup.helper.HttpConnection.execute(HttpConnection.java:227)
+	at org.jsoup.helper.HttpConnection.get(HttpConnection.java:216)
+	at com.ti.ccstudio.errorparser.parsers.PatternProvider$PatternData.fillup(PatternProvider.java:261)
+	at com.ti.ccstudio.errorparser.parsers.PatternProvider$PatternData.findMatch(PatternProvider.java:145)
+	at com.ti.ccstudio.errorparser.parsers.PatternProvider.getEmdUrl(PatternProvider.java:465)
+	at com.ti.ccstudio.errorparser.parsers.ErrorPattern.recordError(ErrorPattern.java:77)
+	at com.ti.ccstudio.errorparser.parsers.CoffErrorParser.processPendingMesg(CoffErrorParser.java:259)
+	at com.ti.ccstudio.errorparser.parsers.CoffErrorParser.doProcessLine(CoffErrorParser.java:103)
+	at com.ti.ccstudio.errorparser.parsers.BaseErrorParser.processLine(BaseErrorParser.java:307)
+	at org.eclipse.cdt.core.errorparsers.ErrorParserNamedWrapper.processLine(ErrorParserNamedWrapper.java:48)
+	at com.ti.ccstudio.project.core.internal.build.ProjectAdviceManager$AdviceContentHandler.endElement(ProjectAdviceManager.java:124)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(AbstractSAXParser.java:609)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(XMLDocumentFragmentScannerImpl.java:1782)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(XMLDocumentFragmentScannerImpl.java:2967)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:602)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:505)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:841)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:770)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:141)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1213)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:643)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl.parse(SAXParserImpl.java:327)
+	at javax.xml.parsers.SAXParser.parse(SAXParser.java:328)
+	at com.ti.ccstudio.project.core.internal.build.ProjectAdviceManager.processAdvice(ProjectAdviceManager.java:489)
+	at com.ti.ccstudio.project.core.internal.build.ProjectAdviceManager.handleAdviceChangingEvent(ProjectAdviceManager.java:450)
+	at com.ti.ccstudio.project.core.internal.build.ProjectAdviceManager.handleAdviceChangingEvent(ProjectAdviceManager.java:438)
+	at com.ti.ccstudio.project.core.internal.build.ProjectAdviceManager.onProjectBuild_Post(ProjectAdviceManager.java:431)
+	at com.ti.common.project.core.internal.events.ProjectStateMonitor$ResourceChangeListener$8.visit(ProjectStateMonitor.java:416)
+	at com.ti.common.project.core.internal.events.ProjectStateMonitor.notifyListeners(ProjectStateMonitor.java:848)
+	at com.ti.common.project.core.internal.events.ProjectStateMonitor.access$2(ProjectStateMonitor.java:837)
+	at com.ti.common.project.core.internal.events.ProjectStateMonitor$ResourceChangeListener.resourceChanged(ProjectStateMonitor.java:414)
+	at org.eclipse.core.internal.events.NotificationManager$1.run(NotificationManager.java:299)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.NotificationManager.notify(NotificationManager.java:289)
+	at org.eclipse.core.internal.events.NotificationManager.broadcastChanges(NotificationManager.java:152)
+	at org.eclipse.core.internal.resources.Workspace.broadcastBuildEvent(Workspace.java:360)
+	at org.eclipse.core.internal.resources.Workspace.buildInternal(Workspace.java:496)
+	at org.eclipse.core.internal.resources.Workspace.build(Workspace.java:406)
+	at com.ti.ccstudio.project.core.services.ProjectBuilder.internalBuildProjects(ProjectBuilder.java:265)
+	at com.ti.ccstudio.project.core.services.ProjectBuilder.buildProjects(ProjectBuilder.java:179)
+	at com.ti.ccstudio.project.ui.internal.actions.BuildActiveConfigMenuAction_hack$BuildAction_hack$2.run(BuildActiveConfigMenuAction_hack.java:83)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2025-10-28 20:46:32.161
+!MESSAGE No repository found at http://download.segger.com/J-Link/JLink_TI_CCS_plugin.
+
+!ENTRY org.eclipse.equinox.p2.core 4 0 2025-10-28 20:47:19.328
+!MESSAGE Provisioning exception
+!STACK 1
+org.eclipse.equinox.p2.core.ProvisionException: No repository found at http://download.segger.com/J-Link/JLink_TI_CCS_plugin.
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.fail(AbstractRepositoryManager.java:395)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:653)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepository.addChild(CompositeMetadataRepository.java:166)
+	at org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepository.<init>(CompositeMetadataRepository.java:106)
+	at org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepositoryFactory.load(CompositeMetadataRepositoryFactory.java:122)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.factoryLoad(MetadataRepositoryManager.java:57)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:768)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:668)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.getAvailableRepositories(UpdateChecker.java:151)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.checkForUpdates(UpdateChecker.java:129)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker$UpdateCheckThread.run(UpdateChecker.java:73)
+!SUBENTRY 1 org.eclipse.equinox.p2.metadata.repository 4 1000 2025-10-28 20:47:19.333
+!MESSAGE No repository found at http://download.segger.com/J-Link/JLink_TI_CCS_plugin.
+
+!ENTRY org.eclipse.core.resources 4 568 2025-10-28 20:51:17.258
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\SC2107_LAB\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:45)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:41)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1768)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1852)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1224)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1165)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:52)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.core.resources 4 568 2025-10-28 20:56:34.413
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\SC2107_LAB\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:45)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:41)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1768)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1852)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1224)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1165)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:52)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-10-28 20:57:21.946
+!MESSAGE Indexed 'H_TimerCompare_Motor_WandererTillLineFollowerBot' (17 sources, 26 headers) in 6.07 sec: 1,872 declarations; 4,217 references; 11 unresolved inclusions; 24 syntax errors; 287 unresolved names (4.5%)
+
+!ENTRY com.ti.ccstudio.debug 1 0 2025-10-28 21:02:00.514
+!MESSAGE DS_ERROR: CS_DAP_0: Error connecting to the target: (Error -260 @ 0x0) An attempt to connect to the XDS110 failed. The cause may be one or more of: no XDS110 is connected, invalid firmware update, invalid XDS110 serial number, or faulty USB cable. The firmware and serial number may be updated using the xdsdfu utility found in the .../ccs_base/common/uscif/xds110 directory of your installation. View the ReadMe.txt file there for instructions. (Emulation package 7.0.100.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2025-10-28 21:02:01.080
+!MESSAGE DS_ERROR: Error connecting to the target:
+(Error -260 @ 0x0)
+An attempt to connect to the XDS110 failed.
+The cause may be one or more of: no XDS110 is connected, invalid
+firmware update, invalid XDS110 serial number, or faulty USB
+cable. The firmware and serial number may be updated using the
+xdsdfu utility found in the .../ccs_base/common/uscif/xds110
+directory of your installation. View the ReadMe.txt file there
+for instructions.
+(Emulation package 7.0.100.0)
+
+
+!ENTRY org.eclipse.core.resources 4 568 2025-10-28 21:02:14.921
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\SC2107_LAB\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers.snap (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:45)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:41)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1768)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1852)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1224)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1165)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:52)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.ui.ide 4 4 2025-10-28 21:05:32.921
+!MESSAGE Problems saving workspace
+
+!ENTRY org.eclipse.ui.ide 4 1 2025-10-28 21:05:32.923
+!MESSAGE Problems occurred while trying to save the state of the workbench.
+!SUBENTRY 1 org.eclipse.core.resources 4 568 2025-10-28 21:05:32.923
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: C:\SC2107_LAB\.metadata\.plugins\org.eclipse.core.resources\.projects\RemoteSystemsTempFiles\.markers (The system cannot find the path specified)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:162)
+	at org.eclipse.core.internal.localstore.SafeFileOutputStream.<init>(SafeFileOutputStream.java:51)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSave(SaveManager.java:1657)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSave(SaveManager.java:1739)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1199)
+	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2283)
+	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor$4.run(IDEWorkbenchAdvisor.java:456)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
