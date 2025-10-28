@@ -26,6 +26,8 @@ typedef enum {
 } RobotMode_t;
 
 volatile RobotMode_t currentMode = MODE_WANDERING;
+volatile uint8_t collision_detected = 0;
+volatile uint8_t collision_bumpstate = 0;
 
 // Speed definitions
 #define WANDER_SPEED 1000
@@ -87,26 +89,31 @@ void ControlMotors(uint32_t output) {
 
 // Bump sensor interrupt handler
 void Task(uint8_t bumpstate){
+//    if(bumpstate != 0x3F){
+//        // Exit line following mode if bump detected
+//        currentMode = MODE_WANDERING;
+//
+//        // reverse 10cm
+//        Motor_ForwardDist(10, WANDER_SPEED, WANDER_SPEED);  // Fixed: positive value
+//
+//        // rotate based on which bump sensor was triggered
+//        if ((bumpstate & 0b000001) || (bumpstate & 0b000010)) {
+//            // right bumps activated, turn left 90 deg
+//            Motor_RotateAngle(-90, WANDER_SPEED);
+//        }
+//        else if ((bumpstate & 0b100000) || (bumpstate & 0b010000)) {
+//            // left bumps activated, turn right 90 deg
+//            Motor_RotateAngle(90, WANDER_SPEED);
+//        }
+//        else {
+//            // middle bump activated, turn left 90 deg
+//            Motor_RotateAngle(-90, WANDER_SPEED);
+//        }
+//    }
     if(bumpstate != 0x3F){
-        // Exit line following mode if bump detected
-        currentMode = MODE_WANDERING;
-
-        // reverse 10cm
-        Motor_ForwardDist(10, WANDER_SPEED, WANDER_SPEED);  // Fixed: positive value
-
-        // rotate based on which bump sensor was triggered
-        if ((bumpstate & 0b000001) || (bumpstate & 0b000010)) {
-            // right bumps activated, turn left 90 deg
-            Motor_RotateAngle(-90, WANDER_SPEED);
-        }
-        else if ((bumpstate & 0b100000) || (bumpstate & 0b010000)) {
-            // left bumps activated, turn right 90 deg
-            Motor_RotateAngle(90, WANDER_SPEED);
-        }
-        else {
-            // middle bump activated, turn left 90 deg
-            Motor_RotateAngle(-90, WANDER_SPEED);
-        }
+        Motor_Stop();              // Only stop
+        collision_detected = 1;     // Set flag
+        collision_bumpstate = bumpstate;  // Save which bumps
     }
 }
 
@@ -123,18 +130,18 @@ uint8_t CheckForLine(void) {
 // Wandering behavior using IR sensors
 void WanderMode(uint32_t right_mm, uint32_t center_mm, uint32_t left_mm) {
     if (center_mm < IR_THRESHOLD) {
-        Motor_Stop();
-        Motor_ForwardDist(10, WANDER_SPEED, WANDER_SPEED);  // Reverse
+//        Motor_Stop();
+        Motor_ForwardDist(-10, WANDER_SPEED, WANDER_SPEED);  // Reverse
         Motor_RotateAngle(-90, WANDER_SPEED);  // Turn left
     }
     else if (left_mm < IR_THRESHOLD) {
-        Motor_Stop();
-        Motor_ForwardDist(10, WANDER_SPEED, WANDER_SPEED);  // Reverse
+//        Motor_Stop();
+        Motor_ForwardDist(-10, WANDER_SPEED, WANDER_SPEED);  // Reverse
         Motor_RotateAngle(90, WANDER_SPEED);  // Turn right
     }
     else if (right_mm < IR_THRESHOLD) {
-        Motor_Stop();
-        Motor_ForwardDist(10, WANDER_SPEED, WANDER_SPEED);  // Reverse
+//        Motor_Stop();
+        Motor_ForwardDist(-10, WANDER_SPEED, WANDER_SPEED);  // Reverse
         Motor_RotateAngle(-90, WANDER_SPEED);  // Turn left
     }
     else {
@@ -186,6 +193,26 @@ int main(void){
     TimedPause(1000);  // Wait for button press to start
 
     while(1){
+        // Check for collision first
+        if (collision_detected) {
+            collision_detected = 0;  // Clear flag
+            currentMode = MODE_WANDERING;
+
+            // Handle collision here (safe in main loop)
+            Motor_ForwardDist(-10, WANDER_SPEED, WANDER_SPEED);
+
+            if ((collision_bumpstate & 0b000011)) {
+                Motor_RotateAngle(-90, WANDER_SPEED);  // Right bump, turn left
+            }
+            else if ((collision_bumpstate & 0b110000)) {
+                Motor_RotateAngle(90, WANDER_SPEED);   // Left bump, turn right
+            }
+            else {
+                Motor_RotateAngle(-90, SPEED);  // Middle bump, turn left
+            }
+            continue;  // Skip rest of loop, start fresh
+        }
+
         if (currentMode == MODE_WANDERING) {
             // Check for line detection
             if (CheckForLine()) {

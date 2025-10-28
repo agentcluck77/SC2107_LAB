@@ -28,37 +28,47 @@
 		<link>
 			<name>Clock.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-ORIGINAL_PROJECT_ROOT/inc/Clock.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/Clock.c</locationURI>
+		</link>
+		<link>
+			<name>CortexM.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/CortexM.c</locationURI>
 		</link>
 		<link>
 			<name>LaunchPad.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-ORIGINAL_PROJECT_ROOT/inc/LaunchPad.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/LaunchPad.c</locationURI>
 		</link>
 		<link>
 			<name>Motor.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-ORIGINAL_PROJECT_ROOT/inc/Motor.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/Motor.c</locationURI>
 		</link>
 		<link>
 			<name>PWM.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-ORIGINAL_PROJECT_ROOT/inc/PWM.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/PWM.c</locationURI>
 		</link>
 		<link>
 			<name>Reflectance.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-ORIGINAL_PROJECT_ROOT/inc/Reflectance.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/Reflectance.c</locationURI>
+		</link>
+		<link>
+			<name>TA3InputCapture.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/TA3InputCapture.c</locationURI>
 		</link>
 		<link>
 			<name>TExaS.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-ORIGINAL_PROJECT_ROOT/inc/TExaS.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/TExaS.c</locationURI>
 		</link>
 		<link>
 			<name>Tachometer.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-ORIGINAL_PROJECT_ROOT/inc/Tachometer.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/Tachometer.c</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>

@@ -79,6 +79,9 @@ volatile uint8_t status;
 
 volatile uint8_t reflectance_data, bump_data;
 
+volatile uint8_t collision_detected = 0;
+volatile uint8_t collision_bumpstate = 0;
+
 // Driver test
 void TimedPause(uint32_t time){
   Clock_Delay1ms(time);          // run for a while and stop
@@ -96,25 +99,9 @@ uint32_t Time;
 
 void Task(uint8_t bumpstate){
     if(bumpstate != 0x3F){
-        // reverse 10cm
-        Motor_ForwardDist(-10, SPEED, SPEED);
-
-        // rotate
-        if ((bumpstate & 0b000001) || (bumpstate & 0b000010)) {
-            // right bumps activated
-            // turn left 90 deg
-            Motor_RotateAngle(-90, SPEED);
-        }
-        else if ((bumpstate & 0b100000) || (bumpstate & 0b010000)) {
-            // left bumps activated
-            // turn right 90 deg
-            Motor_RotateAngle(90, SPEED);
-        }
-        else {
-            // middle bump activated
-            // turn left 90 deg
-            Motor_RotateAngle(-90, SPEED);
-        }
+        Motor_Stop();              // Only stop
+        collision_detected = 1;     // Set flag
+        collision_bumpstate = bumpstate;  // Save which bumps
     }
 }
 
@@ -147,6 +134,24 @@ int main(void){
 
     TimedPause(1000);
     while(1){
+        // Check for collision first
+        if (collision_detected) {
+            collision_detected = 0;  // Clear flag
+
+            // Handle collision here
+            Motor_ForwardDist(-10, SPEED, SPEED);
+
+            if ((collision_bumpstate & 0b000011)) {
+                Motor_RotateAngle(-90, SPEED);  // Right bump, turn left
+            }
+            else if ((collision_bumpstate & 0b110000)) {
+                Motor_RotateAngle(90, SPEED);   // Left bump, turn right
+            }
+            else {
+                Motor_RotateAngle(-90, SPEED);  // Middle bump, turn left
+            }
+            continue;  // Skip rest of loop, start fresh
+        }
         // IR measurements
         // read raw ADC values from all three sensors
         ADC_In17_12_16(&right_raw, &center_raw, &left_raw);
@@ -157,19 +162,19 @@ int main(void){
         left_mm = LeftConvert(left_raw);       // Convert left sensor
 
         if (center_mm < IR_THRESHOLD) {
-            Motor_Stop();
+//            Motor_Stop();
             Motor_ForwardDist(-10, SPEED, SPEED);
             // turn left
             Motor_RotateAngle(-90, SPEED);
         }
         else if (left_mm < IR_THRESHOLD) {
-            Motor_Stop();
+//            Motor_Stop();
             Motor_ForwardDist(-10, SPEED, SPEED);
             // turn right
             Motor_RotateAngle(90, SPEED);
         }
         else if (right_mm < IR_THRESHOLD) {
-            Motor_Stop();
+//            Motor_Stop();
             Motor_ForwardDist(-10, SPEED, SPEED);
             // turn left
             Motor_RotateAngle(-90, SPEED);

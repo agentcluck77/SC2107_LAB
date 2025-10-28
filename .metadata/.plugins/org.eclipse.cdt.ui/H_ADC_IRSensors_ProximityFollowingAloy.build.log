@@ -1,8 +1,0 @@
-
-**** Build of configuration Debug for project H_ADC_IRSensors_ProximityFollowingAloy ****
-
-"C:\\ti\\ccsv7\\utils\\bin\\gmake" -k -j 4 all -O 
- 
-gmake[1]: 'H_ADC_IRSensors_ProximityFollowingAloy.out' is up to date.
-
-**** Build Finished ****

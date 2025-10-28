@@ -1,8 +1,0 @@
-
-**** Build of configuration Debug for project M_ADC_IRSensors_MotorIRLED ****
-
-"C:\\ti\\ccsv7\\utils\\bin\\gmake" -k -j 24 all -O 
- 
-gmake[1]: 'M_ADC_IRSensors_MotorIRLED.out' is up to date.
-
-**** Build Finished ****

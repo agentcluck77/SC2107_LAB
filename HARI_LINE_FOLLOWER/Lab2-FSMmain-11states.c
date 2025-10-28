@@ -1,10 +1,15 @@
 
 #include <stdint.h>
 #include "msp.h"
-#include "../inc/clock.h"
+#include "../inc/Clock.h"
 #include "../inc/LaunchPad.h"
 #include "../inc/Texas.h"
 #include "../inc/Reflectance.h"  //OHL
+#include "../inc/Motor.h"
+#include "../inc/PWM.h"
+#include "../inc/Tachometer.h"
+#include "../inc/TA3InputCapture.h"
+#include "../inc/CortexM.h"
 
 /*(Left,Right) Motors, call LaunchPad_Output (positive logic)
 3   1,1     both motors, yellow means go straight
@@ -40,7 +45,7 @@ typedef const struct State State_t;
 
 //OHL
 State_t fsm[11]={
-  {0x03,  500, { Right1,         Left1,      Right1,     Center    }},   // Center
+  {0x03,  500, { Center,         Left1,      Right1,     Center    }},   // Center
   {0x02,  500, { Left_off1,      Left2,      Right1,     Center    }},   // Left1
   {0x03,  500, { Left_off1,      Left1,      Right1,     Center    }},   // Left2
   {0x02, 500, { Left_off2,      Left_off2,  Left_off2,  Left_off2 }},   // Left_off1

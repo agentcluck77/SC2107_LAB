@@ -1,8 +1,0 @@
-
-**** Build of configuration Debug for project L_Bump_Reflectance_Systick_BumpLEDConversions_all ****
-
-"C:\\ti\\ccsv7\\utils\\bin\\gmake" -k -j 4 all -O 
- 
-gmake[1]: 'L_Bump_Reflectance_Systick_BumpLEDConversions_all.out' is up to date.
-
-**** Build Finished ****

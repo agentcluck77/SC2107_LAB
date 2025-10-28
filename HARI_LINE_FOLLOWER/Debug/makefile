@@ -11,11 +11,13 @@ GEN_CMDS__FLAG :=
 
 ORDERED_OBJS += \
 "./Clock.obj" \
+"./CortexM.obj" \
 "./Lab2-FSMmain-11states.obj" \
 "./LaunchPad.obj" \
 "./Motor.obj" \
 "./PWM.obj" \
 "./Reflectance.obj" \
+"./TA3InputCapture.obj" \
 "./TExaS.obj" \
 "./Tachometer.obj" \
 "./startup_msp432p401r_ccs.obj" \
@@ -129,42 +131,42 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-LINE_FOLLOWER.out \
+HARI_LINE_FOLLOWER.out \
 
 EXE_OUTPUTS__QUOTED += \
-"LINE_FOLLOWER.out" \
+"HARI_LINE_FOLLOWER.out" \
 
 BIN_OUTPUTS += \
-LINE_FOLLOWER.hex \
+HARI_LINE_FOLLOWER.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"LINE_FOLLOWER.hex" \
+"HARI_LINE_FOLLOWER.hex" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "LINE_FOLLOWER.out"
+	@$(MAKE) --no-print-directory -Onone "HARI_LINE_FOLLOWER.out"
 
 # Tool invocations
-LINE_FOLLOWER.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+HARI_LINE_FOLLOWER.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: MSP432 Linker'
-	"C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=TARGET_IS_MSP432P4XX --define=ccs -g --c99 --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"LINE_FOLLOWER.map" --heap_size=1024 --stack_size=512 -i"C:/ti/ccsv7/ccs_base/arm/include" -i"C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/lib" -i"C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="LINE_FOLLOWER_linkInfo.xml" --rom_model -o "LINE_FOLLOWER.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=TARGET_IS_MSP432P4XX --define=ccs -g --c99 --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"HARI_LINE_FOLLOWER.map" --heap_size=1024 --stack_size=512 -i"C:/ti/ccsv7/ccs_base/arm/include" -i"C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/lib" -i"C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="HARI_LINE_FOLLOWER_linkInfo.xml" --rom_model -o "HARI_LINE_FOLLOWER.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-LINE_FOLLOWER.hex: $(EXE_OUTPUTS)
+HARI_LINE_FOLLOWER.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: MSP432 Hex Utility'
-	"C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/bin/armhex" --memwidth=8 --romwidth=8 -o "LINE_FOLLOWER.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/bin/armhex" --memwidth=8 --romwidth=8 -o "HARI_LINE_FOLLOWER.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "Clock.obj" "Lab2-FSMmain-11states.obj" "LaunchPad.obj" "Motor.obj" "PWM.obj" "Reflectance.obj" "TExaS.obj" "Tachometer.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
-	-$(RM) "Clock.d" "Lab2-FSMmain-11states.d" "LaunchPad.d" "Motor.d" "PWM.d" "Reflectance.d" "TExaS.d" "Tachometer.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
+	-$(RM) "Clock.obj" "CortexM.obj" "Lab2-FSMmain-11states.obj" "LaunchPad.obj" "Motor.obj" "PWM.obj" "Reflectance.obj" "TA3InputCapture.obj" "TExaS.obj" "Tachometer.obj" "startup_msp432p401r_ccs.obj" "system_msp432p401r.obj" 
+	-$(RM) "Clock.d" "CortexM.d" "Lab2-FSMmain-11states.d" "LaunchPad.d" "Motor.d" "PWM.d" "Reflectance.d" "TA3InputCapture.d" "TExaS.d" "Tachometer.d" "startup_msp432p401r_ccs.d" "system_msp432p401r.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

@@ -295,6 +295,9 @@ int32_t Reflectance_Position(uint8_t data){
         denominator += data&0x1;
         data = data>>0x01;
     }
+    if(denominator == 0) {
+        return 333;  // Return 333 when no line detected (as documented in the header)
+    }
     position = numerator / denominator;
 
     return position;

@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;inc/BaseConvert&apos; to &apos;BaseConvert.h&apos;" description="Rename resource &apos;BaseConvert&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="BaseConvert" name="BaseConvert.h" stamp="1761628864489" updateReferences="true"/>
-</session>
