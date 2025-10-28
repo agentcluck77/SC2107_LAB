@@ -314,15 +314,20 @@ void main(void){
     while(1);
 }
  */
-void Motor_ForwardDist(uint16_t distance_cm, uint16_t leftDuty, uint16_t rightDuty) {
+void Motor_ForwardDist(int16_t distance_cm, uint16_t leftDuty, uint16_t rightDuty) {
     int32_t leftSteps, rightSteps;
     uint16_t leftTach, rightTach;
     enum TachDirection leftDir, rightDir;
 
+    // Return immediately if distance is 0
+    if (distance_cm == 0) {
+        return;
+    }
+
     // Calculate target steps based on distance
     // 360 steps = 22 cm (220 mm circumference)
     // steps = (distance_cm * 360) / 22
-    int32_t targetSteps = (int32_t)((distance_cm * 360) / 22);
+    int32_t targetSteps = (int32_t)((abs(distance_cm) * 360) / 22);
 
     // Reset tachometer step counters
     DisableInterrupts();
@@ -330,22 +335,28 @@ void Motor_ForwardDist(uint16_t distance_cm, uint16_t leftDuty, uint16_t rightDu
     Tachometer_RightSteps = 0;
     EnableInterrupts();
 
-    // Start moving forward
-    Motor_Forward(leftDuty, rightDuty);
+    // Start moving based on direction
+    if (distance_cm > 0) {
+        // Positive distance: move forward
+        Motor_Forward(leftDuty, rightDuty);
+    } else {
+        // Negative distance: move backward
+        Motor_Backward(leftDuty, rightDuty);
+    }
 
     // Wait until target distance reached on EITHER wheel
-    uint32_t timeout = 0;
+//    uint32_t timeout = 0;
     do {
         Tachometer_Get(&leftTach, &leftDir, &leftSteps,
                        &rightTach, &rightDir, &rightSteps);
 
-        // Safety timeout (prevents infinite loop if motor stalls)
-        timeout++;
-        if (timeout > 2000000) {
-            Motor_Stop();
-            return;
-        }
-    } while (leftSteps < targetSteps && rightSteps < targetSteps);
+//        // Safety timeout (prevents infinite loop if motor stalls)
+//        timeout++;
+//        if (timeout > 2000000) {
+//            Motor_Stop();
+//            return;
+//        }
+    } while (abs(leftSteps) < targetSteps && abs(rightSteps) < targetSteps);
 
     // Stop motors
     Motor_Stop();

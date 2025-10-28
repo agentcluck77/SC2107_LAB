@@ -43,6 +43,82 @@ those of the authors and should not be interpreted as representing official
 policies, either expressed or implied, of the FreeBSD Project.
 */
 
+/*
+ USAGE EXAMPLE (GP2Y0A21YK0F IR DISTANCE SENSORS WITH ADC):
+
+ // In your main.c file:
+ #include "msp.h"
+ #include "..\inc\ADC14.h"
+ #include "..\inc\IRDistance.h"
+ #include "..\inc\Clock.h"
+
+ // Complete example: Reading three IR distance sensors on robot
+ int main(void) {
+     uint32_t right_raw, center_raw, left_raw;      // Raw ADC values (0-16383)
+     int32_t right_mm, center_mm, left_mm;          // Converted distances in mm
+
+     Clock_Init48MHz();
+     ADC0_InitSWTriggerCh17_12_16();  // Initialize ADC for three IR sensors
+                                      // P9.0/A17 = Right sensor
+                                      // P4.1/A12 = Center sensor
+                                      // P9.1/A16 = Left sensor
+
+     while(1) {
+         // Step 1: Read raw ADC values from all three sensors
+         ADC_In17_12_16(&right_raw, &center_raw, &left_raw);
+
+         // Step 2: Convert raw ADC to distance in millimeters using calibration
+         right_mm = RightConvert(right_raw);    // Convert right sensor
+         center_mm = CenterConvert(center_raw); // Convert center sensor
+         left_mm = LeftConvert(left_raw);       // Convert left sensor
+
+         // Step 3: Use distances for obstacle avoidance or navigation
+         if(center_mm < 150) {
+             // Obstacle within 150mm ahead - stop or turn
+         }
+
+         if(left_mm < 100 && right_mm > 300) {
+             // Too close to left wall, steer right
+         }
+
+         if(right_mm < 100 && left_mm > 300) {
+             // Too close to right wall, steer left
+         }
+
+         Clock_Delay1ms(100);  // Sample every 100ms
+     }
+ }
+
+ // Alternative: Single sensor reading
+ int main(void) {
+     uint32_t center_raw;
+     int32_t center_distance;
+
+     Clock_Init48MHz();
+     ADC0_InitSWTriggerCh12();        // Initialize only center sensor (P4.1/A12)
+
+     while(1) {
+         center_raw = ADC_In12();                    // Read ADC value (0-16383)
+         center_distance = CenterConvert(center_raw); // Convert to mm
+
+         // Use distance for control logic
+         if(center_distance < 200) {
+             // Object detected within 200mm
+         }
+
+         Clock_Delay1ms(50);
+     }
+ }
+
+ NOTE: GP2Y0A21YK0F sensor specifications:
+       - Operating range: ~100mm to 800mm (effective detection)
+       - Output voltage increases as distance decreases (inverse relationship)
+       - Conversion functions return 5000mm for out-of-range readings
+       - Each sensor requires individual calibration (different formulas)
+       - Sensors require 5V power supply from Pololu #3543 voltage regulator
+       - 10µF capacitors should be placed physically near each sensor for stability
+*
+
 #include <stdint.h>
 #include "msp.h"
 #include "../inc/ADC14.h"

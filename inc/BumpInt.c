@@ -42,6 +42,34 @@ those of the authors and should not be interpreted as representing official
 policies, either expressed or implied, of the FreeBSD Project.
 */
 
+/*
+ USAGE EXAMPLE:
+
+ // In your main.c file:
+ #include "msp.h"
+ #include "..\inc\BumpInt.h"
+ #include "..\inc\CortexM.h"    // for EnableInterrupts()
+
+ volatile uint8_t bumpState = 0;  // Declare global bump state variable
+
+ // Define your task function (called when bump interrupt occurs)
+ void HandleBump(uint8_t bump_data) {
+     // Your collision handling code here
+     // bump_data is a 6-bit value (0-63) indicating which sensors triggered
+ }
+
+ int main(void) {
+     Clock_Init48MHz();
+     BumpInt_Init(&HandleBump);   // Initialize with your task function
+     EnableInterrupts();          // Enable global interrupts
+
+     while(1) {
+         // Your main loop code
+         // Bump interrupts handled automatically by PORT4_IRQHandler
+     }
+ }
+*/
+
 // Negative logic bump sensors
 // P4.7 Bump5, left side of robot
 // P4.6 Bump4
@@ -52,6 +80,8 @@ policies, either expressed or implied, of the FreeBSD Project.
 
 #include <stdint.h>
 #include "msp.h"
+
+extern volatile uint8_t bumpState;
 
 void (*Port4Task)(uint8_t);   // user function
 
@@ -92,10 +122,21 @@ uint8_t Bump_Read(void){
     result = (temp&0x1)|((temp>>1)&0x6)|((temp>>2)&0x38);
     return (result);
 }
-// we do not care about critical section/race conditions
-// triggered on touch, falling edge
-void PORT4_IRQHandler(void){
-    // write this as part of Lab 14
-    (*Port4Task)(Bump_Read());             // execute user task
-}
+//// we do not care about critical section/race conditions
+//// triggered on touch, falling edge
+//void PORT4_IRQHandler(void){
+//    // write this as part of Lab 14
+//    (*Port4Task)(Bump_Read());             // execute user task
+//}
 
+void PORT4_IRQHandler(void){
+    uint8_t status, result;
+    status = P4 -> IV; // Read interrupt vector (auto-clears highest priority flag)
+
+    if(status != 0x00){                   // Check if valid interrupt
+        result = Bump_Read();
+        Port4Task(result);
+        bumpState = result;
+    }
+    P4->IFG &= 0x12;                      // Clear remaining interrupt flags
+}

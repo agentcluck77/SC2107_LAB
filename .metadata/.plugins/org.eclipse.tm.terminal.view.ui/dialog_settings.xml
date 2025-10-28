@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="LaunchTerminalSettingsDialog">
-		<item value="Serial Terminal" key="terminalLabel"/>
+		<item value="Local Terminal" key="terminalLabel"/>
 		<section name="SettingsPanelControl">
 			<section name="Serial Terminal">
 				<item value="COM3" key="SerialLinePanel.selectedTTYDevice.Windows 10"/>

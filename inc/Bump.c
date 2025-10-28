@@ -42,6 +42,34 @@ those of the authors and should not be interpreted as representing official
 policies, either expressed or implied, of the FreeBSD Project.
 */
 
+/*
+USAGE EXAMPLE:
+ *
+// In your main.c file:
+#include "msp.h"
+#include "..\inc\BumpInt.h"
+#include "..\inc\CortexM.h"    // for EnableInterrupts()
+
+volatile uint8_t bumpState = 0;  // Declare global bump state variable
+
+// Define your task function (called when bump interrupt occurs)
+void HandleBump(uint8_t bump_data) {
+    // Your collision handling code here
+    // bump_data is a 6-bit value (0-63) indicating which sensors triggered
+}
+
+int main(void) {
+    Clock_Init48MHz();
+    BumpInt_Init(&HandleBump);   // Initialize with your task function
+    EnableInterrupts();          // Enable global interrupts
+
+    while(1) {
+        // Your main loop code
+        // Bump interrupts handled automatically by PORT4_IRQHandler
+    }
+}
+ */
+
 // Negative logic bump sensors
 // P4.7 Bump5, left side of robot
 // P4.6 Bump4
@@ -103,6 +131,8 @@ uint8_t Bump_Read(void){
     return (result);
 }
 
+// this version of the IRQhandler will simply update the bumpState.
+// if you would like to call a user defined task, use BumpInt.c
 
 void PORT4_IRQHandler(void){
     uint8_t status, result;
@@ -110,11 +140,10 @@ void PORT4_IRQHandler(void){
 
     if(status != 0x00){
         result = Bump_Read();
-        Port4Task(result);      // call the user-defined task with the bump switch
+//        Port4Task(result);      // call the user-defined task with the bump switch
         bumpState = result;
     }
     P4->IFG &= 0x12;            // clear interrupt flags for bump switches
-
 
 //    (*Port4Task)(Bump_Read());
     //P4->IFG=0x00;

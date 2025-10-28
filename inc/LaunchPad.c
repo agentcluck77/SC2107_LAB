@@ -41,13 +41,125 @@ The views and conclusions contained in the software and documentation are
 those of the authors and should not be interpreted as representing official
 policies, either expressed or implied, of the FreeBSD Project.
 */
+
+/*
+ USAGE EXAMPLE (MSP432 LAUNCHPAD BUTTONS AND RGB LED):
  
+ // In your main.c file:
+ #include "msp.h"
+ #include "..\inc\LaunchPad.h"
+ #include "..\inc\Clock.h"
+
+ int main(void) {
+     uint8_t button_status;
+
+     Clock_Init48MHz();
+     LaunchPad_Init();                // Initialize buttons and LEDs
+
+     // Turn on different colored LEDs
+     LaunchPad_Output(RED);           // Red LED on (bit 0)
+     LaunchPad_Output(GREEN);         // Green LED on (bit 1)
+     LaunchPad_Output(BLUE);          // Blue LED on (bit 2)
+     LaunchPad_Output(RED | GREEN);   // Yellow (red + green)
+     LaunchPad_Output(RED | BLUE);    // Pink (red + blue)
+     LaunchPad_Output(GREEN | BLUE);  // Cyan (green + blue)
+     LaunchPad_Output(RED | GREEN | BLUE);  // White (all colors)
+     LaunchPad_Output(0);             // All LEDs off
+     // note: these colours are defined in LaunchPad.h
+
+     // Control P1.0 LED
+     LaunchPad_LED(1);                // P1.0 LED on
+     LaunchPad_LED(0);                // P1.0 LED off
+
+     // Read buttons and control LED
+     while(1) {
+         button_status = LaunchPad_Input();  // Read both buttons
+         // Returns: 0x00=none, 0x01=Button1, 0x02=Button2, 0x03=both
+
+         if(button_status == 0x01) {
+             LaunchPad_Output(RED);    // Button 1 pressed - red LED
+         } else if(button_status == 0x02) {
+             LaunchPad_Output(GREEN);  // Button 2 pressed - green LED
+         } else if(button_status == 0x03) {
+             LaunchPad_Output(BLUE);   // Both pressed - blue LED
+         } else {
+             LaunchPad_Output(0);      // No button - LEDs off
+         }
+
+         Clock_Delay1ms(10);           // Debounce delay
+     }
+ }
+
+ NOTE: Button inputs use negative logic (pressed = LOW) but LaunchPad_Input()
+       returns positive logic (pressed = 1) for easier programming.
+       Built-in buttons: P1.1 (Button1), P1.4 (Button2)
+       RGB LED pins: P2.0 (red), P2.1 (green), P2.2 (blue)
+*/
+
+/*
+ TEMPLATE FUNCTION: Wait for Button Press
+
+ // Add this function to your code:
+
+ // Wait for any button on LaunchPad to be pressed
+ // Blocks execution until Button 1, Button 2, or both are pressed
+ // Parameters: none
+ // Returns: button value (0x01=Button1, 0x02=Button2, 0x03=both)
+ // Note: Assumes LaunchPad_Init() has been called
+ uint8_t LaunchPad_WaitForPress(void) {
+     uint8_t button;
+
+     while(LaunchPad_Input() == 0x00) {
+         // Wait for any button to be pressed
+     }
+
+     button = LaunchPad_Input();  // Read which button(s) pressed
+
+     // Wait for button to be released (debouncing)
+     while(LaunchPad_Input() != 0x00) {
+         // Wait for release
+     }
+
+     return button;
+ }
+
+ // Usage example:
+ LaunchPad_Init();
+
+ LaunchPad_Output(RED);
+ uint8_t pressed = LaunchPad_WaitForPress();  // Code pauses here until button pressed
+
+ if(pressed == 0x01) {
+     // Button 1 was pressed
+ } else if(pressed == 0x02) {
+     // Button 2 was pressed
+ }
+
+ // Alternative: Simple wait without caring which button
+ void LaunchPad_WaitForTouch(void) {
+     while(LaunchPad_Input() == 0x00);  // Wait for press
+     while(LaunchPad_Input() != 0x00);  // Wait for release
+ }
+*/
+
+
 // built-in LED1 connected to P1.0
 // negative logic built-in Button 1 connected to P1.1
 // negative logic built-in Button 2 connected to P1.4
 // built-in red LED connected to P2.0
 // built-in green LED connected to P2.1
 // built-in blue LED connected to P2.2
+
+// Color    LED(s) Port2
+// dark     ---    0
+// red      R--    0x01
+// blue     --B    0x04
+// green    -G-    0x02
+// yellow   RG-    0x03
+// cyan     -GB    0x06
+// white    RGB    0x07
+// pink     R-B    0x05
+
 
 #include "msp.h"
 

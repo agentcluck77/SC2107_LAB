@@ -43,6 +43,71 @@ those of the authors and should not be interpreted as representing official
 policies, either expressed or implied, of the FreeBSD Project.
 */
 
+/*
+ USAGE EXAMPLE (QTR-8RC LINE FOLLOWING SENSOR):
+
+ // In your main.c file:
+ #include "msp.h"
+ #include "..\inc\Reflectance.h"
+ #include "..\inc\Clock.h"
+
+ // METHOD 1: Blocking Mode (simple polling)
+ int main(void) {
+     uint8_t sensor_data;
+     int32_t position;
+
+     Clock_Init48MHz();
+     Reflectance_Init();              // Initialize sensor pins
+
+     while(1) {
+         sensor_data = Reflectance_Read(1000);  // Read all 8 sensors (wait 1000µs)
+         // sensor_data is 8-bit: bit7=left sensor, bit0=right sensor
+         // 1=black/line detected, 0=white/no line
+
+         position = Reflectance_Position(sensor_data);
+         // position ranges from -332 (left) to +332 (right) in 0.1mm units
+
+         if(position < -150) {
+             // Robot is off to the right, steer left
+         } else if(position > 150) {
+             // Robot is off to the left, steer right
+         }
+
+         Clock_Delay1ms(10);  // Poll every 10ms
+     }
+ }
+
+ // METHOD 2: Non-Blocking Mode (with SysTick for timing)
+ volatile uint8_t reflectance_data = 0;
+
+ void SysTick_Handler(void) {
+     static uint8_t step = 0;
+
+     if(step == 0) {
+         Reflectance_Start();         // Start sensor read (turns on IR, charges caps)
+         step = 1;
+     } else if(step == 1) {
+         reflectance_data = Reflectance_End();  // Finish read (after ~1ms delay)
+         step = 0;
+     }
+ }
+
+ int main(void) {
+     Clock_Init48MHz();
+     Reflectance_Init();
+     SysTick_Init(48000, 1);          // 1ms interrupts
+     EnableInterrupts();
+
+     while(1) {
+         // Use reflectance_data for line following
+         int32_t pos = Reflectance_Position(reflectance_data);
+     }
+ }
+
+ // For simple center-only line following:
+ uint8_t center = Reflectance_Center(1000);  // Returns 0-3
+ // 0 = lost (0,0), 1 = off to left (0,1), 2 = off to right (1,0), 3 = on line (1,1)
+*/
 
 // reflectance LED illuminate connected to P5.3
 // reflectance sensor 1 connected to P7.0 (robot's right, robot off road to left)

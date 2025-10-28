@@ -44,6 +44,71 @@ those of the authors and should not be interpreted as representing official
 policies, either expressed or implied, of the FreeBSD Project.
 */
 
+
+/*
+ USAGE EXAMPLE (INTERRUPT-BASED ENCODER MONITORING):
+
+ // In your main.c file:
+ #include "msp.h"
+ #include "..\inc\Tachometer.h"
+ #include "..\inc\Clock.h"
+ #include "..\inc\CortexM.h"    // for EnableInterrupts()
+
+ int main(void) {
+     uint16_t leftTach, rightTach;           // Period measurements (units of 0.083 µsec)
+     enum TachDirection leftDir, rightDir;   // FORWARD, STOPPED, or REVERSE
+     int32_t leftSteps, rightSteps;          // Total steps (360 steps per ~220mm circumference)
+
+     Clock_Init48MHz();                      // Must be called before Tachometer_Init()
+     Tachometer_Init();                      // Initialize encoder pins and input capture interrupts
+     EnableInterrupts();                     // Enable global interrupts
+
+     while(1) {
+         // Get current encoder measurements (all parameters are output pointers)
+         Tachometer_Get(&leftTach, &leftDir, &leftSteps,
+                        &rightTach, &rightDir, &rightSteps);
+
+         // Use the measurements for motor control, odometry, etc.
+         if(leftDir == FORWARD) {
+             // Left wheel moving forward
+         }
+         if(rightSteps > 360) {
+             // Right wheel completed one full rotation (~220mm traveled)
+         }
+
+         Clock_Delay1ms(100);  // Update every 100ms
+     }
+ }
+
+ NOTE: Encoder data is captured automatically by Timer A3 input capture interrupts.
+       You don't need to write interrupt handlers - they're internal to Tachometer.c
+*/
+
+
+/*
+ TEMPLATE FUNCTION: Calculate Distance Traveled
+
+ // Calculate distance traveled in millimeters based on wheel encoder steps
+ // Parameters: leftSteps  - total steps from left encoder
+ //             rightSteps - total steps from right encoder
+ // Returns: distance traveled in millimeters (based on average of both wheels)
+ // Note: 360 steps = ~220mm wheel circumference for our robot
+
+ float Tachometer_GetDistance(int32_t leftSteps, int32_t rightSteps) {
+     int32_t avgSteps = (leftSteps + rightSteps) / 2;
+     float distanceMM = avgSteps * (220.0 / 360.0);  // mm per step
+     return distanceMM;
+ }
+
+ // Usage example:
+ int32_t leftSteps, rightSteps;
+ Tachometer_Get(&leftTach, &leftDir, &leftSteps,
+                &rightTach, &rightDir, &rightSteps);
+
+ float distance = Tachometer_GetDistance(leftSteps, rightSteps);
+ // distance is now in millimeters (e.g., 1000.0 = 1 meter traveled)
+*/
+
 // Pololu #3542 Romi Encoder connected to Pololu #3543 Motor Driver and Power Distribution Board
 //   This connects motor, power, encoders, and grounds.  Kit includes this hardware.  See images.
 // Sever VPU = VREG jumper on Motor Driver and Power Distribution Board and connect VPU to 3.3V.
