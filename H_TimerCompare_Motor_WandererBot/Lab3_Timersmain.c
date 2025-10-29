@@ -75,6 +75,7 @@ policies, either expressed or implied, of the FreeBSD Project.
 #include "..\inc\IRDistance.h"
 #include "../inc/LPF.h"
 #include "../inc/UART0.h"
+#include "../inc/BaseConvert.h"
 
 volatile uint8_t bumpState;
 volatile uint8_t status;
@@ -110,7 +111,7 @@ uint32_t Time;
 volatile uint32_t ADCvalue;
 volatile uint32_t ADCflag;
 volatile uint32_t nr,nc,nl;
-#define IR_THRESHOLD 100
+//#define IR_THRESHOLD 50
 volatile uint32_t left, center, right;
 
 void SensorRead_ISR(void){  // runs at 2000 Hz
@@ -192,21 +193,21 @@ int main(void){
         center = CenterConvert(nc);
         right = RightConvert(nr);
 
-        if (center < IR_THRESHOLD) {
+        if (center < 10) {
 //            Motor_Stop();
-            Motor_ForwardDist(-10, SPEED, SPEED);
+            Motor_ForwardDist(-5, SPEED, SPEED);
             // turn left
             Motor_RotateAngle(-90, SPEED);
         }
-        else if (left < IR_THRESHOLD) {
+        else if (left < 7) {
 //            Motor_Stop();
-            Motor_ForwardDist(-10, SPEED, SPEED);
+            Motor_ForwardDist(-5, SPEED, SPEED);
             // turn right
             Motor_RotateAngle(90, SPEED);
         }
-        else if (right < IR_THRESHOLD) {
+        else if (right < 7) {
 //            Motor_Stop();
-            Motor_ForwardDist(-10, SPEED, SPEED);
+            Motor_ForwardDist(-5, SPEED, SPEED);
             // turn left
             Motor_RotateAngle(-90, SPEED);
         }

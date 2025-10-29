@@ -59,17 +59,41 @@ policies, either expressed or implied, of the FreeBSD Project.
 #include "..\inc\Reflectance.h"
 #include "..\inc\Clock.h"
 #include "..\inc\TExaS.h"
+#define RED 0x01
+
+//Initialise GPIO Port2 registers, for the RED LED
+void Port2_Init(void){
+  P2->SEL0 = 0x00;
+  P2->SEL1 = 0x00;                        // configure P2.2-P2.0 as GPIO
+  P2->DS = 0x07;                          // make P2.2-P2.0 high drive strength
+  P2->DIR = 0x07;                         // make P2.2-P2.0 out
+  P2->OUT = 0x00;                         // all LEDs off
+}
+
 
 uint8_t Data; // QTR-8RC
 int32_t Position; // 332 is right, and -332 is left of center
 int main(void){
   Clock_Init48MHz();
   Reflectance_Init();
+  Port2_Init();
   TExaS_Init(LOGICANALYZER_P7);
   while(1){
     Data = Reflectance_Read(1000);
     //Data = Reflectance_Center(1000);
     //Position = Reflectance_Position(Data);
+//    Clock_Delay1ms(10);
+//    Data = Reflectance_Read(1000);
+    //Data = Reflectance_Center(1000);
+    //Position = Reflectance_Position(Data);
+//    if ((Data & 0x04) && (Data & 0x08)) { // when bits 3 and 4 are black
+    while(Data == 0b11100111){
+        P2->OUT ^= RED; // turn on RED LED when on center
+        Clock_Delay1ms(500);
+        Data = Reflectance_Read(1000);
+    }
+    P2->OUT &= ~RED;
+
     Clock_Delay1ms(10);
   }
 }

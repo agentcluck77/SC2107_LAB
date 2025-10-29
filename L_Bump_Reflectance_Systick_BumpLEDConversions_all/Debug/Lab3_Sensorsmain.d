@@ -17,6 +17,8 @@ Lab3_Sensorsmain.obj: ../../inc/SysTickInts.h
 Lab3_Sensorsmain.obj: ../../inc/CortexM.h
 Lab3_Sensorsmain.obj: ../../inc/LaunchPad.h
 Lab3_Sensorsmain.obj: ../../inc/TExaS.h
+Lab3_Sensorsmain.obj: ../../inc/BaseConvert.h
+Lab3_Sensorsmain.obj: ../../inc/UART0.h
 
 ../Lab3_Sensorsmain.c: 
 C:/ti/ccsv7/ccs_base/arm/include/msp.h: 
@@ -35,3 +37,5 @@ C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h:
 ../../inc/CortexM.h: 
 ../../inc/LaunchPad.h: 
 ../../inc/TExaS.h: 
+../../inc/BaseConvert.h: 
+../../inc/UART0.h: 

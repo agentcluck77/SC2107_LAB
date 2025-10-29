@@ -102,12 +102,14 @@ int main(void){
     Data = Reflectance_Read(1000);
     //Data = Reflectance_Center(1000);
     //Position = Reflectance_Position(Data);
-    if ((Data & 0x04) && (Data & 0x08)) { // when bits 3 and 4 are black
-        P2->OUT &= ~RED;
-    } else {
-        P2->OUT |= RED; // turn on RED LED when on center
+//    if ((Data & 0x04) && (Data & 0x08)) { // when bits 3 and 4 are black
+    while((Data & 0x04) && (Data & 0x08)){
+        P2->OUT ^= RED; // turn on RED LED when on center
+        Clock_Delay1ms(500);
     }
-    Clock_Delay1ms(10);
+    P2->OUT &= ~RED;
+
+    Clock_Delay1ms(50);
   }
 }
 

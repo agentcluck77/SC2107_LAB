@@ -64,6 +64,8 @@ policies, either expressed or implied, of the FreeBSD Project.
 #include "..\inc\CortexM.h"
 #include "..\inc\LaunchPad.h"
 #include "..\inc\TExaS.h"
+#include "../inc/BaseConvert.h"
+#include "../inc/UART0.h"
 
 #define GREEN 0x02
 
@@ -121,7 +123,7 @@ volatile uint32_t binToDec;
 
 int main(void){
 
-volatile uint8_t data_pins;
+    volatile uint8_t data_pins;
 
     Clock_Init48MHz();
     LaunchPad_Init();
@@ -131,14 +133,50 @@ volatile uint8_t data_pins;
     TExaS_Init(LOGICANALYZER_P7);
     SysTick_Init(48000,1);  // set up SysTick for 1000 Hz interrupts
     EnableInterrupts();
+    UART0_Init();  // Use this for direct UART functions
+    uint32_t decimal_result;
+    int8_t status;
+    char output_buffer[BIN_BUFFER_SIZE];
+
     while(1){
       WaitForInterrupt();
       if(MainCount%1000 == 0)P2->OUT ^= 0x01; // foreground thread
       MainCount++;
       Port2_Init();
       P2->OUT = bitPosition(~bump_data & 0x3F);
+        //----------Binary to Decimal----------
+        UART0_OutString("--- Binary to Decimal ---\r\n");
+
+        status = BinToDec("1010", &decimal_result);
+        if (status == CONVERT_SUCCESS) {
+            UART0_OutString("Binary 1010 = Decimal ");
+            UART0_OutUDec(decimal_result);
+            UART0_OutString("\r\n");
+        }
     }
+
+    // UART0_Initprintf();  // OR use this if you want printf() support
+
 }
+
+
+
+// Helper function to print conversion results
+void PrintResult(char* label, int8_t status, char* output) {
+    UART0_OutString(label);
+    UART0_OutString(": ");
+
+    if (status == CONVERT_SUCCESS) {
+        UART0_OutString(output);
+    } else {
+        UART0_OutString("ERROR ");
+        UART0_OutUDec(status);
+    }
+    UART0_OutString("\r\n");
+}
+
+//int main(void) {
+
 
 /*
 void PORT4_IRQHandler(uint_8){
