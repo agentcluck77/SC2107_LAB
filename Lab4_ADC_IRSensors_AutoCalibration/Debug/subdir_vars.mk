@@ -9,15 +9,15 @@ CMD_SRCS += \
 ../msp432p401r.cmd 
 
 C_SRCS += \
-C:/SC2107_LAB/inc/ADC14.c \
-C:/SC2107_LAB/inc/Clock.c \
-C:/SC2107_LAB/inc/CortexM.c \
-C:/SC2107_LAB/inc/IRDistance.c \
-C:/SC2107_LAB/inc/LPF.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/ADC14.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Clock.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/CortexM.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/IRDistance.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/LPF.c \
 ../Lab4_ADCmain.c \
-C:/SC2107_LAB/inc/LaunchPad.c \
-C:/SC2107_LAB/inc/TimerA1.c \
-C:/SC2107_LAB/inc/UART0.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/LaunchPad.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/TimerA1.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/UART0.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
 
@@ -74,15 +74,15 @@ C_DEPS__QUOTED += \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"C:/SC2107_LAB/inc/ADC14.c" \
-"C:/SC2107_LAB/inc/Clock.c" \
-"C:/SC2107_LAB/inc/CortexM.c" \
-"C:/SC2107_LAB/inc/IRDistance.c" \
-"C:/SC2107_LAB/inc/LPF.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/ADC14.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Clock.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/CortexM.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/IRDistance.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/LPF.c" \
 "../Lab4_ADCmain.c" \
-"C:/SC2107_LAB/inc/LaunchPad.c" \
-"C:/SC2107_LAB/inc/TimerA1.c" \
-"C:/SC2107_LAB/inc/UART0.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/LaunchPad.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/TimerA1.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/UART0.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 
 

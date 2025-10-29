@@ -81,16 +81,16 @@ static int32_t CAL_Right_Dist[3] = {100, 300, 500};     /* EDIT: Actual distance
  * Right:  length = 10*(90000/(nr-700))     => A=900000, B=-700,  C=0
  */
 
-static int32_t Left_A   = 900000;
-static int32_t Left_B   = -300;
+static int32_t Left_A   = 100000;
+static int32_t Left_B   = -880;
 static int32_t Left_C   = 0;
 
-static int32_t Center_A = 1000000;
-static int32_t Center_B = 900;
+static int32_t Center_A = 111111;
+static int32_t Center_B = -311;
 static int32_t Center_C = 0;
 
-static int32_t Right_A  = 900000;
-static int32_t Right_B  = -700;
+static int32_t Right_A  = 111111;
+static int32_t Right_B  = -189;
 static int32_t Right_C  = 0;
 
 

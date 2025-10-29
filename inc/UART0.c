@@ -1,3 +1,17 @@
+/*
+ * Wisdom from bharagth
+ * UART terminal not working? stay calm
+ * 1. unplug robot
+ * 2. turn off and on
+ * 3. close terminal
+ * 4. plug robot back in
+ * 5. open debugger
+ * 6. open terminal
+ * 7. run
+ * 8. voila
+ */
+
+
 // UART0.c
 // Runs on MSP432
 // Busy-wait device driver for the UART UCA0.

@@ -9,10 +9,10 @@ CMD_SRCS += \
 ../msp432p401r.cmd 
 
 C_SRCS += \
-C:/SC2108_FINAL-main/inc/Clock.c \
-C:/SC2108_FINAL-main/inc/LaunchPad.c \
-C:/SC2108_FINAL-main/inc/SysTick.c \
-C:/SC2108_FINAL-main/inc/TExaS.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Clock.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/LaunchPad.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/SysTick.c \
+C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/TExaS.c \
 ../TExaSmain.c \
 ../startup_msp432p401r_ccs.c \
 ../system_msp432p401r.c 
@@ -54,10 +54,10 @@ C_DEPS__QUOTED += \
 "system_msp432p401r.d" 
 
 C_SRCS__QUOTED += \
-"C:/SC2108_FINAL-main/inc/Clock.c" \
-"C:/SC2108_FINAL-main/inc/LaunchPad.c" \
-"C:/SC2108_FINAL-main/inc/SysTick.c" \
-"C:/SC2108_FINAL-main/inc/TExaS.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/Clock.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/LaunchPad.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/SysTick.c" \
+"C:/Users/ALOY0058/Desktop/SC2107_LAB/inc/TExaS.c" \
 "../TExaSmain.c" \
 "../startup_msp432p401r_ccs.c" \
 "../system_msp432p401r.c" 

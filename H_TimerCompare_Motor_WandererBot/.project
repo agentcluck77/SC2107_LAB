@@ -31,9 +31,9 @@
 			<locationURI>PARENT-1-PROJECT_LOC/inc/ADC14.c</locationURI>
 		</link>
 		<link>
-			<name>BumpInt.c</name>
+			<name>Bump.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/inc/BumpInt.c</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/Bump.c</locationURI>
 		</link>
 		<link>
 			<name>Clock.c</name>
@@ -49,6 +49,11 @@
 			<name>IRDistance.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/inc/IRDistance.c</locationURI>
+		</link>
+		<link>
+			<name>LPF.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/LPF.c</locationURI>
 		</link>
 		<link>
 			<name>LaunchPad.c</name>
@@ -89,6 +94,11 @@
 			<name>TimerA1.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/inc/TimerA1.c</locationURI>
+		</link>
+		<link>
+			<name>UART0.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/inc/UART0.c</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

@@ -21,9 +21,11 @@ Lab3_Timersmain.obj: ../../inc/Reflectance.h
 Lab3_Timersmain.obj: ../../inc/Tachometer.h
 Lab3_Timersmain.obj: ../../inc/TA3InputCapture.h
 Lab3_Timersmain.obj: ../../inc/PWM.h
-Lab3_Timersmain.obj: ../../inc/BumpInt.h
+Lab3_Timersmain.obj: ../../inc/Bump.h
 Lab3_Timersmain.obj: ../../inc/ADC14.h
 Lab3_Timersmain.obj: ../../inc/IRDistance.h
+Lab3_Timersmain.obj: ../../inc/LPF.h
+Lab3_Timersmain.obj: ../../inc/UART0.h
 
 ../Lab3_Timersmain.c: 
 C:/ti/ccsv7/ccs_base/arm/include/msp.h: 
@@ -46,6 +48,8 @@ C:/ti/ccsv7/ccs_base/arm/include/system_msp432p401r.h:
 ../../inc/Tachometer.h: 
 ../../inc/TA3InputCapture.h: 
 ../../inc/PWM.h: 
-../../inc/BumpInt.h: 
+../../inc/Bump.h: 
 ../../inc/ADC14.h: 
 ../../inc/IRDistance.h: 
+../../inc/LPF.h: 
+../../inc/UART0.h: 

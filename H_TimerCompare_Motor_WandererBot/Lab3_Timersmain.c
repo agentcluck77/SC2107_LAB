@@ -69,10 +69,12 @@ policies, either expressed or implied, of the FreeBSD Project.
 #include "..\inc\Tachometer.h"
 #include "..\inc\TA3InputCapture.h"
 #include "..\inc\PWM.h"
-#include "..\inc\BumpInt.h"
+#include "..\inc\Bump.h"
 // new: for IR
 #include "..\inc\ADC14.h"
 #include "..\inc\IRDistance.h"
+#include "../inc/LPF.h"
+#include "../inc/UART0.h"
 
 volatile uint8_t bumpState;
 volatile uint8_t status;
@@ -97,24 +99,55 @@ uint32_t Time;
 
 #define SPEED 1000
 
-void Task(uint8_t bumpstate){
-    if(bumpstate != 0x3F){
-        Motor_Stop();              // Only stop
-        collision_detected = 1;     // Set flag
-        collision_bumpstate = bumpstate;  // Save which bumps
-    }
-}
+//void Task(uint8_t bumpstate){
+//    if(bumpstate != 0x3F){
+//        Motor_Stop();              // Only stop
+//        collision_detected = 1;     // Set flag
+//        collision_bumpstate = bumpstate;  // Save which bumps
+//    }
+//}
 
-#define IR_THRESHOLD 200
+volatile uint32_t ADCvalue;
+volatile uint32_t ADCflag;
+volatile uint32_t nr,nc,nl;
+#define IR_THRESHOLD 100
+volatile uint32_t left, center, right;
+
+void SensorRead_ISR(void){  // runs at 2000 Hz
+  uint32_t raw17,raw12,raw16;
+  P1OUT ^= 0x01;         // profile
+  P1OUT ^= 0x01;         // profile
+  ADC_In17_12_16(&raw17,&raw12,&raw16);  // sample
+  nr = LPF_Calc(raw17);  // right is channel 17 P9.0
+  nc = LPF_Calc2(raw12);  // center is channel 12, P4.1
+  nl = LPF_Calc3(raw16);  // left is channel 16, P9.1
+  ADCflag = 1;           // semaphore
+  P1OUT ^= 0x01;         // profile
+}
 
 int main(void){
     // Uses Timer generated PWM to move the robot
     // Uses TimerA1 to periodically
     // check the bump switches, stopping the robot on a collision
 
-    Clock_Init48MHz();
-    LaunchPad_Init(); // built-in switches and LEDs
-    BumpInt_Init(&Task);      // bump switches
+
+    uint32_t raw12, raw16, raw17;
+    int32_t n; uint32_t s;
+    s = 256; // replace with your choice
+
+    Clock_Init48MHz();  //SMCLK=12Mhz
+    ADCflag = 0;
+    s = 256; // replace with your choice
+    ADC0_InitSWTriggerCh17_12_16();   // initialize channels 17,12,16
+    ADC_In17_12_16(&raw17,&raw12,&raw16);  // sample
+    LPF_Init(raw17,s);     // P9.0/channel 17
+    LPF_Init2(raw12,s);     // P4.1/channel 12
+    LPF_Init3(raw16,s);     // P9.1/channel 16
+    UART0_Init();          // initialize UART0 115,200 baud rate
+    LaunchPad_Init();
+    TimerA1_Init(&SensorRead_ISR,250);    // 2000 Hz sampling
+
+    Bump_Init();      // bump switches
     Motor_Init();     // your function
     Tachometer_Init();
     TExaS_Init(LOGICANALYZER_P2);
@@ -123,57 +156,55 @@ int main(void){
     EnableInterrupts();
 
     // IR setup
-    uint32_t right_raw, center_raw, left_raw;      // Raw ADC values (0-16383)
-    int32_t right_mm, center_mm, left_mm;          // Converted distances in mm
 
-    ADC0_InitSWTriggerCh17_12_16();  // Initialize ADC for three IR sensors
-                                     // P9.0/A17 = Right sensor
-                                     // P4.1/A12 = Center sensor
-                                     // P9.1/A16 = Left sensor
-    CalibrateIRSensors();
 
     TimedPause(1000);
     while(1){
+        for(n=0; n<2000; n++){
+          while(ADCflag == 0){};
+          ADCflag = 0; // show every 2000th point
+        }
         // Check for collision first
-        if (collision_detected) {
-            collision_detected = 0;  // Clear flag
+        if (bumpState != 0x3F) {
+
 
             // Handle collision here
             Motor_ForwardDist(-10, SPEED, SPEED);
 
-            if ((collision_bumpstate & 0b000011)) {
+            if ((~bumpState & 0b000001) || (~bumpState & 0b000010)) {
                 Motor_RotateAngle(-90, SPEED);  // Right bump, turn left
             }
-            else if ((collision_bumpstate & 0b110000)) {
+            else if ((~bumpState & 0b010000) || (~bumpState & 0b100000)) {
                 Motor_RotateAngle(90, SPEED);   // Left bump, turn right
-            }
+        }
             else {
                 Motor_RotateAngle(-90, SPEED);  // Middle bump, turn left
             }
+            bumpState = 0x3F; // reset bumpState
             continue;  // Skip rest of loop, start fresh
         }
         // IR measurements
         // read raw ADC values from all three sensors
-        ADC_In17_12_16(&right_raw, &center_raw, &left_raw);
+        ADC_In17_12_16(&raw17,&raw12,&raw16);  // sample
 
         // convert raw ADC to distance in millimeters
-        right_mm = RightConvert(right_raw);    // Convert right sensor
-        center_mm = CenterConvert(center_raw); // Convert center sensor
-        left_mm = LeftConvert(left_raw);       // Convert left sensor
+        left = LeftConvert(nl);
+        center = CenterConvert(nc);
+        right = RightConvert(nr);
 
-        if (center_mm < IR_THRESHOLD) {
+        if (center < IR_THRESHOLD) {
 //            Motor_Stop();
             Motor_ForwardDist(-10, SPEED, SPEED);
             // turn left
             Motor_RotateAngle(-90, SPEED);
         }
-        else if (left_mm < IR_THRESHOLD) {
+        else if (left < IR_THRESHOLD) {
 //            Motor_Stop();
             Motor_ForwardDist(-10, SPEED, SPEED);
             // turn right
             Motor_RotateAngle(90, SPEED);
         }
-        else if (right_mm < IR_THRESHOLD) {
+        else if (right < IR_THRESHOLD) {
 //            Motor_Stop();
             Motor_ForwardDist(-10, SPEED, SPEED);
             // turn left
